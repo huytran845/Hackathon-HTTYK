@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcjo64ebpkvr8"]
+[gd_scene load_steps=2 format=3 uid="uid://dcjo64ebpkvr8"]
 
 
 [ext_resource type="PackedScene" uid="uid://b667usll5v26r" path="res://Characters/Culinara.tscn" id="1_433ia"]
