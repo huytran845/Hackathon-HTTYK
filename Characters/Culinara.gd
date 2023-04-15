@@ -43,11 +43,11 @@ func _physics_process(_delta): # Underscore on the variable means it's unused
 		pickNewState()
 	
 	
-func updateCharacterAnimation(moveInput: Vector2):
+func updateCharacterAnimation(moveInput : Vector2):
 	#Won't change animation if there's no move input
 	if (moveInput != Vector2.ZERO):
 		animationTree.set("parameters/Walk/blend_position", moveInput)
-		animationTree.set("parameter/Idle/blend_position", moveInput)
+		animationTree.set("parameters/Idle/blend_position", moveInput)
 
 
 #Choose state based on what the player is doing

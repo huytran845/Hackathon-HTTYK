@@ -1,6 +1,9 @@
 extends Control
 
-var mainScene = get_tree().get_root().get_node("Main")
+var mainScene
+
+func _ready():
+	mainScene = get_tree().get_root().get_node("Main")
 
 func _on_new_game_butt_pressed():
 	mainScene.loadLevel1()
