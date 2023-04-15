@@ -1,9 +1,40 @@
-[gd_scene load_steps=8 format=3 uid="uid://io43kgyue4ts"]
+[gd_scene load_steps=15 format=3 uid="uid://c4ge2aoedl2cr"]
 
 [ext_resource type="Script" path="res://scenes/battle_screen.gd" id="1_b2c6h"]
 [ext_resource type="Texture2D" uid="uid://b6cu22w2vrwmi" path="res://images/achievement_border.png" id="1_rxv11"]
 [ext_resource type="Texture2D" uid="uid://473skb2kutbe" path="res://images/fightBackground.png" id="3_6dks6"]
 [ext_resource type="Texture2D" uid="uid://v4pobm5jocot" path="res://images/cookBackground.png" id="4_nwlwa"]
+[ext_resource type="Texture2D" uid="uid://cv37c5bkyw7yw" path="res://images/itemBackground.png" id="5_faubx"]
+[ext_resource type="Texture2D" uid="uid://tth5oj3vsmju" path="res://images/onionBattle.png" id="5_u6d42"]
+[ext_resource type="PackedScene" uid="uid://2kon57pkn0wa" path="res://objects/cursor.tscn" id="5_u15bm"]
+[ext_resource type="Texture2D" uid="uid://b4ocn58qqk4k" path="res://images/runBackground.png" id="6_wxhco"]
+
+[sub_resource type="Animation" id="Animation_0ls2x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(25, 19)]
+}
 
 [sub_resource type="Animation" id="Animation_x6fnl"]
 resource_name = "fightAnimation"
@@ -34,37 +65,57 @@ tracks/1/keys = {
 "values": [Vector2(25, 19), Vector2(25, 14), Vector2(25, 19), Vector2(25, 24)]
 }
 
-[sub_resource type="Animation" id="Animation_0ls2x"]
-length = 0.001
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yilv4"]
+_data = {
+"RESET": SubResource("Animation_0ls2x"),
+"fightAnimation": SubResource("Animation_x6fnl")
+}
+
+[sub_resource type="Animation" id="Animation_4o6ak"]
 tracks/0/type = "value"
 tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Fight:position")
+tracks/0/enabled = false
+tracks/0/path = NodePath("textBox/MarginContainer/RichTextLabel:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
+"update": 1,
+"values": [false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
+tracks/1/path = NodePath("textBox/MarginContainer/RichTextLabel:visible_ratio")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(25, 19)]
+"values": [0.0, 1.0]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_yilv4"]
+[sub_resource type="Animation" id="Animation_xf1rc"]
+resource_name = "textAnimation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("textBox/MarginContainer/RichTextLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uw8tr"]
 _data = {
-"RESET": SubResource("Animation_0ls2x"),
-"fightAnimation": SubResource("Animation_x6fnl")
+"RESET": SubResource("Animation_4o6ak"),
+"textAnimation": SubResource("Animation_xf1rc")
 }
 
 [node name="battleScreen" type="Control"]
@@ -156,12 +207,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Items"
+icon = ExtResource("5_faubx")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Run" type="Button" parent="playerUi/PlayerMenu/playerMenu/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Run"
+icon = ExtResource("6_wxhco")
+icon_alignment = 1
+expand_icon = true
+
+[node name="cursor" parent="playerUi/PlayerMenu/playerMenu" instance=ExtResource("5_u15bm")]
+layout_mode = 0
+menu_parent_path = NodePath("../GridContainer")
 
 [node name="statusText" type="NinePatchRect" parent="playerUi/PlayerMenu"]
 layout_mode = 0
@@ -181,23 +243,36 @@ offset_bottom = 40.0
 layout_mode = 2
 text = "Sugar High"
 
-[node name="GridContainer" type="GridContainer" parent="playerUi"]
-offset_left = 47.0
-offset_top = 82.0
-offset_right = 1081.0
-offset_bottom = 360.0
-columns = 3
-
-[node name="enemy" type="Button" parent="playerUi/GridContainer"]
-layout_mode = 2
-icon = ExtResource("1_rxv11")
-icon_alignment = 1
+[node name="enemy" type="TextureButton" parent="playerUi"]
+offset_left = 457.0
+offset_top = 88.0
+offset_right = 657.0
+offset_bottom = 288.0
+texture_normal = ExtResource("5_u6d42")
+ignore_texture_size = true
+stretch_mode = 0
 
 [node name="buttonAnimations" type="AnimationPlayer" parent="playerUi"]
 root_node = NodePath("../PlayerMenu/playerMenu/GridContainer")
 libraries = {
 "": SubResource("AnimationLibrary_yilv4")
 }
+
+[node name="eHealth" type="TextureProgressBar" parent="playerUi"]
+offset_left = 164.0
+offset_top = 108.0
+offset_right = 422.0
+offset_bottom = 147.0
+nine_patch_stretch = true
+texture_over = ExtResource("1_rxv11")
+
+[node name="eEnergy" type="TextureProgressBar" parent="playerUi"]
+offset_left = 160.0
+offset_top = 152.0
+offset_right = 424.0
+offset_bottom = 194.0
+nine_patch_stretch = true
+texture_over = ExtResource("1_rxv11")
 
 [node name="textBox" type="CanvasLayer" parent="."]
 
@@ -217,8 +292,25 @@ offset_right = 927.0
 offset_bottom = 146.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="textBox/textBox/MarginContainer"]
+visible = false
 layout_mode = 2
 text = "You dealth 10000000000000000 damage!"
 
+[node name="textAnimation" type="AnimationPlayer" parent="textBox"]
+libraries = {
+"": SubResource("AnimationLibrary_uw8tr")
+}
+
+[node name="battleBackground" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="background" type="NinePatchRect" parent="battleBackground"]
+offset_left = 2.0
+offset_top = -13.0
+offset_right = 1154.0
+offset_bottom = 623.0
+texture = ExtResource("1_rxv11")
+
 [connection signal="pressed" from="playerUi/PlayerMenu/playerMenu/GridContainer/Fight" to="." method="_on_fight_pressed"]
-[connection signal="pressed" from="playerUi/GridContainer/enemy" to="." method="_on_enemy_pressed"]
+[connection signal="pressed" from="playerUi/enemy" to="." method="_on_enemy_pressed"]
+[connection signal="animation_finished" from="textBox/textAnimation" to="." method="_on_text_animation_animation_finished"]

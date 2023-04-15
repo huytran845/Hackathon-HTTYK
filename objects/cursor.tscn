@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://2kon57pkn0wa"]
+
+[ext_resource type="Texture2D" uid="uid://dfn1rlludlvx4" path="res://images/green_arrow-right.png" id="1_k8q70"]
+[ext_resource type="Script" path="res://objects/texture_rect.gd" id="1_t5mda"]
+
+[node name="cursor" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_k8q70")
+script = ExtResource("1_t5mda")

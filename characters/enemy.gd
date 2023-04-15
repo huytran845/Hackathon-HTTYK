@@ -1,9 +1,8 @@
 extends CharacterBody2D
 
-var isPlayer = true
+var isPlayer = false
 @onready var spriteImage = $Sprite2D
 @onready var stateTimer = $stateTimer
-@onready var tomatoscene = load("res://tomato.gd")
 @onready var battleInstance = load("res://scenes/battle_screen.tscn")
 @export var skills = []
 @export var eHealth = 0.0
@@ -15,23 +14,31 @@ var isPlayer = true
 @export var level = 0.0
 @export var moveSpeed = 0.0
 @export var skillsChance = 0.0
-@export var character = ""
+@export var character = "onion"
 @export var timerWaitTime = 0.0
-@export var enemyNum = 1
+@export var enemyNum : int
+var canMove = true
+var eNums = 2
 var player
 var move_direction : Vector2 = Vector2.ZERO
 enum enemyState {Idle,Walk,Chase,Freeze}
 var currentState : enemyState = enemyState.Idle
 var Enemy 
+var battlingPlayer = false
 
-func setUp(character):
-	#The character is exported and then loads the proper sprite
-	spriteImage.texture = load("res://images/" + str(character) + "/.png")
+func _ready():
+	#The character is exported and then loads the proper sprite 
+	#This should load the file == to res://images/onionBatte.png if the character set was onion
+	spriteImage.texture = load("res://images/" + str(character) + "Battle.png")
+	#This calls on the class which contains all the enemy's stats and skills, as well as special behavior like skill use frequency
 	var enemyInstance = load("res://objects/" + character + ".gd")
 	Enemy = enemyInstance.new()
 	#Depending on the enemy, different stats will load depending on their difficulty
 	Enemy.load_stats()
+	#Matches stats to this script's equvalent
 	matchStats()
+	#Choose whether to idle or walk
+	pick_new_state()
 
 func matchStats():
 	#Matches the stats from this script to the one loaded above in the enemy class
@@ -41,26 +48,34 @@ func matchStats():
 	eDef = Enemy.eDef
 	eSpeed = Enemy.eSpeed
 	eLuck = Enemy.eLuck
+	skills = Enemy.skills
 	timerWaitTime = Enemy.timerWaitTime
 	skillsChance = Enemy.skillsChance
 
 func _physics_process(delta):
 	#Freeze takes priority over everything. Happens when player enters battle or 3 seconds after a battle ended
-	if currentState == enemyState.Freeze:
+	if currentState == enemyState.Freeze or get_parent().get_parent().get_parent().canMove == false:
 		velocity = Vector2(0,0)*0
+		$enterBattle/CollisionShape2D.disabled = true
 		#Otherwise, if enemy sees player, give chase
+		if battlingPlayer and get_parent().get_parent().get_parent().playerVictory == 2:
+			self.queue_free()
 	elif player and currentState == enemyState.Chase:
 		velocity = position.direction_to(player.position)*(moveSpeed)*2
 		move_and_slide()
+		$enterBattle/CollisionShape2D.disabled = false
 	elif currentState == enemyState.Walk:
 		velocity = move_direction*moveSpeed
 		move_and_slide()
-	else:
+		$enterBattle/CollisionShape2D.disabled = false
+	else: #Idle animation
 		pass
+		
 
 #Selects a new direction to walk in
 func select_new_direction():
 	randomize()
+	#Select new direction
 	move_direction = Vector2(
 		randi_range(-1,1),
 		randi_range(-1,1)
@@ -71,10 +86,11 @@ func select_new_direction():
 		spriteImage.flip_h = false
 
 func pick_new_state():
+	#Select new state
 	if currentState == enemyState.Idle:
 		currentState = enemyState.Walk
 		select_new_direction()
-		stateTimer.wait_time = 5 
+		stateTimer.wait_time = timerWaitTime
 		stateTimer.start()
 		stateTimer.one_shot = true
 	elif currentState == enemyState.Walk:
@@ -118,8 +134,11 @@ func _on_state_timer_timeout():
 func _on_enter_battle_body_entered(body):
 	#Player touched enemy and will battle
 	if body.isPlayer == true:
+		get_parent().get_parent().get_parent().playerVictory = 1
+		battlingPlayer = true
+		get_parent().get_parent().get_parent().battleEnter(enemyNum)
 		#Freezes all the other enemies
-		get_parent().get_parent().get_parent().battleStart(enemyNum)
+		
 
 func _on_battle_screen_battle_ended():
 	var unfreezeTimer = Timer.new()
@@ -130,11 +149,13 @@ func _on_battle_screen_battle_ended():
 	currentState = enemyState.Idle
 
 func unfreeze(unfreezeTimer):
+	#Removes the timer that was created. Happens after a battle finished and turn enemies to idle after being frozen
 	unfreezeTimer.queue_free()
 	currentState = enemyState.Idle
 	$stateTimer.start()
 
 
 func _on_level_1_battle_entered():
+	#Battle enters. Should freeze enemy player came in contact with in place while battle takes place
 	$stateTimer.stop()
 	currentState = enemyState.Freeze

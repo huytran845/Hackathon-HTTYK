@@ -8,6 +8,7 @@ var eAtk = 0.0
 var eDef = 0.0
 var eSpeed = 0.0
 var eLuck = 1
+var eName = "Tomaturle"
 var level = 1
 var moveSpeed = 20.0
 var skillsChance = 0.5

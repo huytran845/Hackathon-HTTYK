@@ -1,9 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dcjo64ebpkvr8"]
-
+[gd_scene load_steps=3 format=3 uid="uid://dcjo64ebpkvr8"]
 
 [ext_resource type="PackedScene" uid="uid://b667usll5v26r" path="res://Characters/Culinara.tscn" id="1_433ia"]
-[ext_resource type="PackedScene" uid="uid://bq1kh4lq8g1hk" path="res://inventory/inventory.tscn" id="2_5pt6m"]
-
+[ext_resource type="Script" path="res://main.gd" id="1_ms57o"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -17,21 +15,4 @@ script = ExtResource("1_ms57o")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Culinara" parent="." instance=ExtResource("1_433ia")]
-visible = false
-
-[node name="UI" type="CanvasLayer" parent="."]
-
-[node name="InventoryInterface" type="Control" parent="UI"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PlayerInventory" parent="UI/InventoryInterface" instance=ExtResource("2_5pt6m")]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 70.0
-offset_bottom = 70.0
+scale = Vector2(0.5, 0.5)
