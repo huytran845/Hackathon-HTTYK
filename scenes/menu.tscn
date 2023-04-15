@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://d25k8yhnthe5y"]
+
+[ext_resource type="Texture2D" uid="uid://b6cu22w2vrwmi" path="res://images/achievement_border.png" id="1_jrcmx"]
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="menuBackground" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -323.0
+offset_top = -382.5
+offset_right = 323.0
+offset_bottom = 382.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_jrcmx")
+
+[node name="settings" type="MenuButton" parent="menuBackground"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 188.5
+offset_right = 611.0
+offset_bottom = 239.5
+text = "Settings"
+
+[node name="menuTitle" type="Label" parent="menuBackground"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 87.0
+offset_right = 574.0
+offset_bottom = 144.0
+text = "MENU"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="menuBackground"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 617.0
+offset_right = 593.0
+offset_bottom = 676.0
+text = "Exit Game"

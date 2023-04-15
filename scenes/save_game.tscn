@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cuayielm45gba"]
+
+[ext_resource type="Script" path="res://scenes/save_game.gd" id="1_qvvwb"]
+[ext_resource type="Texture2D" uid="uid://b6cu22w2vrwmi" path="res://images/achievement_border.png" id="2_v0n6u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_701oa"]
+size = Vector2(28, 26)
+
+[node name="saveGame" type="Area2D"]
+script = ExtResource("1_qvvwb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_701oa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.00970115, 0.04)
+texture = ExtResource("2_v0n6u")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

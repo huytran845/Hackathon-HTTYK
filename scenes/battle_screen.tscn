@@ -1,7 +1,71 @@
-[gd_scene load_steps=3 format=3 uid="uid://io43kgyue4ts"]
+[gd_scene load_steps=8 format=3 uid="uid://io43kgyue4ts"]
 
 [ext_resource type="Script" path="res://scenes/battle_screen.gd" id="1_b2c6h"]
 [ext_resource type="Texture2D" uid="uid://b6cu22w2vrwmi" path="res://images/achievement_border.png" id="1_rxv11"]
+[ext_resource type="Texture2D" uid="uid://473skb2kutbe" path="res://images/fightBackground.png" id="3_6dks6"]
+[ext_resource type="Texture2D" uid="uid://v4pobm5jocot" path="res://images/cookBackground.png" id="4_nwlwa"]
+
+[sub_resource type="Animation" id="Animation_x6fnl"]
+resource_name = "fightAnimation"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Fight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(25, 19), Vector2(25, 14), Vector2(25, 19), Vector2(25, 24)]
+}
+
+[sub_resource type="Animation" id="Animation_0ls2x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(25, 19)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yilv4"]
+_data = {
+"RESET": SubResource("Animation_0ls2x"),
+"fightAnimation": SubResource("Animation_x6fnl")
+}
 
 [node name="battleScreen" type="Control"]
 layout_mode = 3
@@ -73,13 +137,19 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Fight"
+icon = ExtResource("3_6dks6")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Skills" type="Button" parent="playerUi/PlayerMenu/playerMenu/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Skills"
+icon = ExtResource("4_nwlwa")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Items" type="Button" parent="playerUi/PlayerMenu/playerMenu/GridContainer"]
 layout_mode = 2
@@ -120,6 +190,14 @@ columns = 3
 
 [node name="enemy" type="Button" parent="playerUi/GridContainer"]
 layout_mode = 2
+icon = ExtResource("1_rxv11")
+icon_alignment = 1
+
+[node name="buttonAnimations" type="AnimationPlayer" parent="playerUi"]
+root_node = NodePath("../PlayerMenu/playerMenu/GridContainer")
+libraries = {
+"": SubResource("AnimationLibrary_yilv4")
+}
 
 [node name="textBox" type="CanvasLayer" parent="."]
 
@@ -141,3 +219,6 @@ offset_bottom = 146.0
 [node name="RichTextLabel" type="RichTextLabel" parent="textBox/textBox/MarginContainer"]
 layout_mode = 2
 text = "You dealth 10000000000000000 damage!"
+
+[connection signal="pressed" from="playerUi/PlayerMenu/playerMenu/GridContainer/Fight" to="." method="_on_fight_pressed"]
+[connection signal="pressed" from="playerUi/GridContainer/enemy" to="." method="_on_enemy_pressed"]

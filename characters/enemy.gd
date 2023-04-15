@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var isPlayer = false
+var isPlayer = true
 @onready var spriteImage = $Sprite2D
 @onready var stateTimer = $stateTimer
 @onready var tomatoscene = load("res://tomato.gd")
@@ -25,13 +25,16 @@ var currentState : enemyState = enemyState.Idle
 var Enemy 
 
 func setUp(character):
+	#The character is exported and then loads the proper sprite
 	spriteImage.texture = load("res://images/" + str(character) + "/.png")
 	var enemyInstance = load("res://objects/" + character + ".gd")
 	Enemy = enemyInstance.new()
+	#Depending on the enemy, different stats will load depending on their difficulty
 	Enemy.load_stats()
 	matchStats()
 
 func matchStats():
+	#Matches the stats from this script to the one loaded above in the enemy class
 	eHealth = Enemy.eHealth
 	eEnergy = Enemy.eEnergy
 	eAtk = Enemy.eAtk
@@ -42,15 +45,20 @@ func matchStats():
 	skillsChance = Enemy.skillsChance
 
 func _physics_process(delta):
-	if player and currentState == enemyState.Chase:
+	#Freeze takes priority over everything. Happens when player enters battle or 3 seconds after a battle ended
+	if currentState == enemyState.Freeze:
+		velocity = Vector2(0,0)*0
+		#Otherwise, if enemy sees player, give chase
+	elif player and currentState == enemyState.Chase:
 		velocity = position.direction_to(player.position)*(moveSpeed)*2
 		move_and_slide()
 	elif currentState == enemyState.Walk:
 		velocity = move_direction*moveSpeed
 		move_and_slide()
-	elif currentState == enemyState.Freeze:
-		velocity = Vector2(0,0)*0
+	else:
+		pass
 
+#Selects a new direction to walk in
 func select_new_direction():
 	randomize()
 	move_direction = Vector2(
@@ -77,13 +85,15 @@ func pick_new_state():
 
 
 func _on_chase_area_body_entered(body):
-	if body.isPlayer == true:
+	#If player enter radius to give chase, enemy gives chase.
+	if body.isPlayer:
 		player = body
 		currentState = enemyState.Chase
 
 
 func _on_chase_area_body_exited(body):
-	if body.isPlayer == true:
+	#Stop giving chase as player exited chase radius
+	if body.isPlayer:
 		player = null
 		currentState = enemyState.Freeze
 		velocity = Vector2(0,0)
@@ -91,6 +101,7 @@ func _on_chase_area_body_exited(body):
 
 
 func _on_state_timer_timeout():
+	#Determines how often enemy enters new state
 	if currentState == enemyState.Walk:
 		currentState = enemyState.Idle
 		stateTimer.wait_time = timerWaitTime
@@ -105,6 +116,25 @@ func _on_state_timer_timeout():
 
 
 func _on_enter_battle_body_entered(body):
+	#Player touched enemy and will battle
 	if body.isPlayer == true:
-		get_parent().battleStart(enemyNum)
+		#Freezes all the other enemies
+		get_parent().get_parent().get_parent().battleStart(enemyNum)
 
+func _on_battle_screen_battle_ended():
+	var unfreezeTimer = Timer.new()
+	unfreezeTimer.wait_time = 3
+	unfreezeTimer.autostart = false
+	unfreezeTimer.start()
+	unfreezeTimer.timeout.connect("unfreezeTimer",[unfreezeTimer])
+	currentState = enemyState.Idle
+
+func unfreeze(unfreezeTimer):
+	unfreezeTimer.queue_free()
+	currentState = enemyState.Idle
+	$stateTimer.start()
+
+
+func _on_level_1_battle_entered():
+	$stateTimer.stop()
+	currentState = enemyState.Freeze

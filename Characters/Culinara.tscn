@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://b667usll5v26r"]
+[gd_scene load_steps=5 format=3 uid="uid://bwi863adwdwe4"]
 
-[ext_resource type="Texture2D" uid="uid://cr5shtc3r3rqt" path="res://Characters/Culinara.png" id="1_44wyt"]
+[ext_resource type="Texture2D" uid="uid://cr5shtc3r3rqt" path="res://characters/Culinara.png" id="1_44wyt"]
 [ext_resource type="Script" path="res://Characters/Culinara.gd" id="2_jt8p3"]
 
 [sub_resource type="AnimationRootNode" id="AnimationRootNode_6pi0w"]

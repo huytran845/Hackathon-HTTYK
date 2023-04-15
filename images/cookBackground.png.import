@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr5shtc3r3rqt"
-path="res://.godot/imported/Culinara.png-3bd7e2e9ea1f979bd98f5185c8978e0e.ctex"
+uid="uid://v4pobm5jocot"
+path="res://.godot/imported/cookBackground.png-dad8a40e2d32c7c80be7d5ae3b408c23.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://characters/Culinara.png"
-dest_files=["res://.godot/imported/Culinara.png-3bd7e2e9ea1f979bd98f5185c8978e0e.ctex"]
+source_file="res://images/cookBackground.png"
+dest_files=["res://.godot/imported/cookBackground.png-dad8a40e2d32c7c80be7d5ae3b408c23.ctex"]
 
 [params]
 

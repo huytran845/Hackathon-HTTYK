@@ -8,9 +8,9 @@ var eAtk = 0.0
 var eDef = 0.0
 var eSpeed = 0.0
 var eLuck = 1
-var level = 0.0
-var moveSpeed = 0.0
-var skillsChance = 0.0
+var level = 1
+var moveSpeed = 20.0
+var skillsChance = 0.5
 var timerWaitTime = 10
 
 
