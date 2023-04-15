@@ -15,6 +15,9 @@ func _ready():
 	var titleScene = titleInstance.instantiate()
 	$CanvasLayer.add_child(titleScene)
 	titleScene.set_name("titleScene")
+	
+	#player.toggle_inventory.connect(toggle_inventory_interface)
+	#player_inventory.set_inventory_data(inventory_data)
 
 func _process(delta):
 	if Input.is_action_pressed("escape") and inBattle == false:
