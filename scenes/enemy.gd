@@ -20,11 +20,11 @@ var player
 var move_direction : Vector2 = Vector2.ZERO
 enum enemyState {Idle,Walk,Chase,Freeze}
 var currentState : enemyState = enemyState.Idle
-var Enemy
+var Enemy 
 
 func setUp(character):
 	spriteImage.texture = load("res://images/" + str(character) + "/.png")
-	var enemyInstance = load("res://" + character + ".gd")
+	var enemyInstance = load("res://objects/" + character + ".gd")
 	Enemy = enemyInstance.new()
 	Enemy.load_stats()
 	matchStats()

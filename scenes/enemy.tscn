@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cw4qye3vlj11q"]
+[gd_scene load_steps=4 format=3 uid="uid://cw4qye3vlj11q"]
+
+[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_x3a6l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k0phg"]
 radius = 244.283
@@ -6,6 +8,8 @@ radius = 244.283
 [sub_resource type="CircleShape2D" id="CircleShape2D_xf746"]
 
 [node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_x3a6l")
+moveSpeed = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
@@ -20,3 +24,7 @@ shape = SubResource("CircleShape2D_xf746")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="stateTimer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Sprite2D/chaseArea" to="." method="_on_chase_area_body_entered"]
+[connection signal="body_exited" from="Sprite2D/chaseArea" to="." method="_on_chase_area_body_exited"]
+[connection signal="timeout" from="stateTimer" to="." method="_on_state_timer_timeout"]
