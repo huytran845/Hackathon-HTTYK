@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://c16nylr2ka2e2"]
+[gd_scene load_steps=8 format=3 uid="uid://c16nylr2ka2e2"]
 
 [ext_resource type="Texture2D" uid="uid://h5krrwat7isr" path="res://images/kitchentrainstiletest.png" id="1_hxoqf"]
 [ext_resource type="Script" path="res://scenes/level_1.gd" id="1_sa56y"]
 [ext_resource type="PackedScene" uid="uid://blylg3oc1s0j4" path="res://characters/player.tscn" id="3_qb51q"]
 [ext_resource type="PackedScene" uid="uid://eugnypvibwq6" path="res://characters/enemy.tscn" id="4_fpmvg"]
+[ext_resource type="PackedScene" uid="uid://bq1kh4lq8g1hk" path="res://inventory/inventory.tscn" id="5_ofpje"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xm4iv"]
 texture = ExtResource("1_hxoqf")
@@ -84,3 +85,14 @@ enemyNum = 2
 
 [node name="Enemy3" parent="CanvasLayer/TileMap" instance=ExtResource("4_fpmvg")]
 enemyNum = 3
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="InventoryInterface" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerInventory" parent="UI/InventoryInterface" instance=ExtResource("5_ofpje")]
+layout_mode = 0
