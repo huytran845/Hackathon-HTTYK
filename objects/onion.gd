@@ -9,6 +9,7 @@ var eDef = 0.0
 var eSpeed = 0.0
 var eLuck = 10
 var level = 1.0
+var eName = "Dragonion"
 var moveSpeed = 50.0
 var skillsChance = 0.8
 var timerWaitTime = 2

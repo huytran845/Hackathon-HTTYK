@@ -1,11 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4ge2aoedl2cr"]
+[gd_scene load_steps=15 format=3 uid="uid://c4ge2aoedl2cr"]
 
 [ext_resource type="Script" path="res://scenes/battle_screen.gd" id="1_b2c6h"]
 [ext_resource type="Texture2D" uid="uid://b6cu22w2vrwmi" path="res://images/achievement_border.png" id="1_rxv11"]
 [ext_resource type="Texture2D" uid="uid://473skb2kutbe" path="res://images/fightBackground.png" id="3_6dks6"]
 [ext_resource type="Texture2D" uid="uid://v4pobm5jocot" path="res://images/cookBackground.png" id="4_nwlwa"]
+[ext_resource type="Texture2D" uid="uid://cv37c5bkyw7yw" path="res://images/itemBackground.png" id="5_faubx"]
 [ext_resource type="Texture2D" uid="uid://tth5oj3vsmju" path="res://images/onionBattle.png" id="5_u6d42"]
 [ext_resource type="PackedScene" uid="uid://2kon57pkn0wa" path="res://objects/cursor.tscn" id="5_u15bm"]
+[ext_resource type="Texture2D" uid="uid://b4ocn58qqk4k" path="res://images/runBackground.png" id="6_wxhco"]
 
 [sub_resource type="Animation" id="Animation_0ls2x"]
 length = 0.001
@@ -70,10 +72,9 @@ _data = {
 }
 
 [sub_resource type="Animation" id="Animation_4o6ak"]
-length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/path = NodePath("textBox/MarginContainer/RichTextLabel:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
@@ -82,6 +83,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("textBox/MarginContainer/RichTextLabel:visible_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
 }
 
 [sub_resource type="Animation" id="Animation_xf1rc"]
@@ -194,12 +207,19 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Items"
+icon = ExtResource("5_faubx")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Run" type="Button" parent="playerUi/PlayerMenu/playerMenu/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Run"
+icon = ExtResource("6_wxhco")
+icon_alignment = 1
+expand_icon = true
 
 [node name="cursor" parent="playerUi/PlayerMenu/playerMenu" instance=ExtResource("5_u15bm")]
 layout_mode = 0
@@ -257,6 +277,7 @@ texture_over = ExtResource("1_rxv11")
 [node name="textBox" type="CanvasLayer" parent="."]
 
 [node name="textBox" type="NinePatchRect" parent="textBox"]
+visible = false
 offset_left = 193.0
 offset_top = 394.0
 offset_right = 1140.0
