@@ -4,6 +4,7 @@ var isPlayer = false
 @onready var spriteImage = $Sprite2D
 @onready var stateTimer = $stateTimer
 @onready var tomatoscene = load("res://tomato.gd")
+@onready var battleInstance = load("res://scenes/battle_screen.tscn")
 @export var skills = []
 @export var eHealth = 0.0
 @export var eEnergy = 0.0
@@ -16,6 +17,7 @@ var isPlayer = false
 @export var skillsChance = 0.0
 @export var character = ""
 @export var timerWaitTime = 0.0
+@export var enemyNum = 1
 var player
 var move_direction : Vector2 = Vector2.ZERO
 enum enemyState {Idle,Walk,Chase,Freeze}
@@ -46,6 +48,8 @@ func _physics_process(delta):
 	elif currentState == enemyState.Walk:
 		velocity = move_direction*moveSpeed
 		move_and_slide()
+	elif currentState == enemyState.Freeze:
+		velocity = Vector2(0,0)*0
 
 func select_new_direction():
 	randomize()
@@ -98,3 +102,9 @@ func _on_state_timer_timeout():
 		stateTimer.wait_time = timerWaitTime 
 		stateTimer.start()
 		stateTimer.one_shot = true
+
+
+func _on_enter_battle_body_entered(body):
+	if body.isPlayer == true:
+		get_parent().battleStart(enemyNum)
+

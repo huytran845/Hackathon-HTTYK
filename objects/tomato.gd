@@ -1,7 +1,7 @@
 class_name tomato
 extends Node
 
-var skills = []
+var skills = ["nothing"]
 var eHealth = 0.0
 var eEnergy = 0.0
 var eAtk = 0.0

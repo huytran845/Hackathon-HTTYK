@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://io43kgyue4ts"]
+[gd_scene load_steps=3 format=3 uid="uid://io43kgyue4ts"]
+
+[ext_resource type="Script" path="res://scenes/battle_screen.gd" id="1_b2c6h"]
+[ext_resource type="Texture2D" uid="uid://b6cu22w2vrwmi" path="res://images/achievement_border.png" id="1_rxv11"]
 
 [node name="battleScreen" type="Control"]
 layout_mode = 3
@@ -7,3 +10,134 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_b2c6h")
+
+[node name="playerUi" type="CanvasLayer" parent="."]
+
+[node name="PlayerMenu" type="Control" parent="playerUi"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1150.0
+offset_bottom = 648.0
+
+[node name="playerPortrait" type="NinePatchRect" parent="playerUi/PlayerMenu"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 453.0
+offset_right = 186.0
+offset_bottom = 648.0
+texture = ExtResource("1_rxv11")
+
+[node name="portrait" type="NinePatchRect" parent="playerUi/PlayerMenu/playerPortrait"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 34.0
+offset_right = 165.0
+offset_bottom = 184.0
+
+[node name="Energy" type="TextureProgressBar" parent="playerUi/PlayerMenu"]
+layout_mode = 0
+offset_left = 188.0
+offset_top = 605.0
+offset_right = 1148.0
+offset_bottom = 639.0
+nine_patch_stretch = true
+texture_over = ExtResource("1_rxv11")
+
+[node name="Health" type="TextureProgressBar" parent="playerUi/PlayerMenu"]
+layout_mode = 0
+offset_left = 188.0
+offset_top = 561.0
+offset_right = 1146.0
+offset_bottom = 601.0
+nine_patch_stretch = true
+texture_over = ExtResource("1_rxv11")
+
+[node name="playerMenu" type="NinePatchRect" parent="playerUi/PlayerMenu"]
+layout_mode = 0
+offset_left = 193.0
+offset_top = 394.0
+offset_right = 1140.0
+offset_bottom = 558.0
+texture = ExtResource("1_rxv11")
+
+[node name="GridContainer" type="GridContainer" parent="playerUi/PlayerMenu/playerMenu"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 19.0
+offset_right = 920.0
+offset_bottom = 149.0
+columns = 2
+
+[node name="Fight" type="Button" parent="playerUi/PlayerMenu/playerMenu/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Fight"
+
+[node name="Skills" type="Button" parent="playerUi/PlayerMenu/playerMenu/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Skills"
+
+[node name="Items" type="Button" parent="playerUi/PlayerMenu/playerMenu/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Items"
+
+[node name="Run" type="Button" parent="playerUi/PlayerMenu/playerMenu/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Run"
+
+[node name="statusText" type="NinePatchRect" parent="playerUi/PlayerMenu"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 396.0
+offset_right = 183.0
+offset_bottom = 447.0
+texture = ExtResource("1_rxv11")
+
+[node name="MarginContainer" type="MarginContainer" parent="playerUi/PlayerMenu/statusText"]
+layout_mode = 0
+offset_top = 7.0
+offset_right = 166.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="playerUi/PlayerMenu/statusText/MarginContainer"]
+layout_mode = 2
+text = "Sugar High"
+
+[node name="GridContainer" type="GridContainer" parent="playerUi"]
+offset_left = 47.0
+offset_top = 82.0
+offset_right = 1081.0
+offset_bottom = 360.0
+columns = 3
+
+[node name="enemy" type="Button" parent="playerUi/GridContainer"]
+layout_mode = 2
+
+[node name="textBox" type="CanvasLayer" parent="."]
+
+[node name="textBox" type="NinePatchRect" parent="textBox"]
+visible = false
+offset_left = 193.0
+offset_top = 394.0
+offset_right = 1140.0
+offset_bottom = 558.0
+texture = ExtResource("1_rxv11")
+
+[node name="MarginContainer" type="MarginContainer" parent="textBox/textBox"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 21.0
+offset_right = 927.0
+offset_bottom = 146.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="textBox/textBox/MarginContainer"]
+layout_mode = 2
+text = "You dealth 10000000000000000 damage!"
