@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 # @export lets you see it in the inspector
-
 @export var moveSpeed : float = 100
 @export var startingDirection : Vector2 = Vector2(0,1)
 @export var pHealth : float = 100
@@ -12,6 +11,7 @@ extends CharacterBody2D
 @export var pSpeed : float = 4
 var isPlayer = true
 var canMove = true
+
 # When script starts we'll get access to this node in scene
 @onready var animationTree = $AnimationTree #Stores reference to animation tree object
 @onready var stateMachine = animationTree.get("parameters/playback") # Initializing thing that will let use change between states

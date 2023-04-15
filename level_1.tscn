@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://c16nylr2ka2e2"]
+[gd_scene load_steps=12 format=3 uid="uid://c16nylr2ka2e2"]
 
 [ext_resource type="Texture2D" uid="uid://h5krrwat7isr" path="res://images/kitchentrainstiletest.png" id="1_hxoqf"]
 [ext_resource type="Script" path="res://scenes/level_1.gd" id="1_sa56y"]
-[ext_resource type="PackedScene" uid="uid://b667usll5v26r" path="res://characters/Culinara.tscn" id="4_51h5c"]
+[ext_resource type="PackedScene" uid="uid://b667usll5v26r" path="res://Characters/Culinara.tscn" id="4_51h5c"]
 [ext_resource type="PackedScene" uid="uid://myrmjw6la6vs" path="res://Characters/enemy.tscn" id="4_fpmvg"]
 [ext_resource type="Texture2D" uid="uid://b6cu22w2vrwmi" path="res://images/achievement_border.png" id="5_8c8be"]
+[ext_resource type="PackedScene" uid="uid://b1oy6h4t40vgc" path="res://Save/save_game.tscn" id="6_g0dt0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xm4iv"]
 texture = ExtResource("1_hxoqf")
@@ -189,6 +190,8 @@ offset_top = 610.0
 offset_right = 1149.0
 offset_bottom = 1257.0
 texture = ExtResource("5_8c8be")
+
+[node name="saveGame" parent="." instance=ExtResource("6_g0dt0")]
 
 [connection signal="battleEntered" from="." to="CanvasLayer/TileMap/Enemy" method="_on_level_1_battle_entered"]
 [connection signal="animation_finished" from="CanvasLayer/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
