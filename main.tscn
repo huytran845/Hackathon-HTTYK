@@ -9,3 +9,5 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Character" type="CharacterBody2D" parent="."]
