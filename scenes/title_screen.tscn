@@ -1,9 +1,48 @@
-[gd_scene format=3 uid="uid://0tsmude7gqqr"]
+[gd_scene load_steps=3 format=3 uid="uid://0tsmude7gqqr"]
+
+[ext_resource type="Texture2D" uid="uid://bwt14s51qbuq2" path="res://images/TitleScreen.png" id="1_8r1sr"]
+[ext_resource type="Script" path="res://scenes/title_screen.gd" id="1_a1agu"]
 
 [node name="titleScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 448.0
+offset_bottom = 252.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_a1agu")
+
+[node name="TitleScreen" type="Sprite2D" parent="."]
+position = Vector2(578, 326)
+scale = Vector2(0.384632, 0.384632)
+texture = ExtResource("1_8r1sr")
+
+[node name="newGameButt" type="Button" parent="TitleScreen"]
+modulate = Color(1, 1, 1, 0.164706)
+self_modulate = Color(0.352941, 1, 1, 1)
+offset_left = -484.0
+offset_top = -278.0
+offset_right = 473.0
+offset_bottom = -135.0
+
+[node name="continueButt" type="Button" parent="TitleScreen"]
+modulate = Color(1, 1, 1, 0.164706)
+self_modulate = Color(0.352941, 1, 1, 1)
+offset_left = -483.579
+offset_top = 213.191
+offset_right = 473.421
+offset_bottom = 356.191
+
+[node name="creditsButt" type="Button" parent="TitleScreen"]
+modulate = Color(1, 1, 1, 0.164706)
+self_modulate = Color(0.352941, 1, 1, 1)
+offset_left = -483.579
+offset_top = -31.1985
+offset_right = 473.421
+offset_bottom = 111.801
+
+[connection signal="pressed" from="TitleScreen/newGameButt" to="." method="_on_new_game_butt_pressed"]
+[connection signal="pressed" from="TitleScreen/continueButt" to="." method="_on_continue_butt_pressed"]
+[connection signal="pressed" from="TitleScreen/creditsButt" to="." method="_on_credits_butt_pressed"]

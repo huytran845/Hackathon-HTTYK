@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="KitchenTrains"
+run/main_scene="res://scenes/title_screen.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [input]
 
