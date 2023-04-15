@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dcjo64ebpkvr8"]
 
-[ext_resource type="PackedScene" uid="uid://bwi863adwdwe4" path="res://characters/Culinara.tscn" id="1_433ia"]
+[ext_resource type="PackedScene" uid="uid://b667usll5v26r" path="res://characters/Culinara.tscn" id="1_433ia"]
 [ext_resource type="Script" path="res://main.gd" id="1_ms57o"]
 
 [node name="Main" type="Control"]
@@ -15,3 +15,4 @@ script = ExtResource("1_ms57o")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Culinara" parent="." instance=ExtResource("1_433ia")]
+scale = Vector2(0.5, 0.5)

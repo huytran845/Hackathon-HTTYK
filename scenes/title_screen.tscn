@@ -31,18 +31,18 @@ offset_bottom = -135.0
 modulate = Color(1, 1, 1, 0.164706)
 self_modulate = Color(0.352941, 1, 1, 1)
 offset_left = -483.579
-offset_top = 213.191
+offset_top = -31.1985
 offset_right = 473.421
-offset_bottom = 356.191
+offset_bottom = 111.801
 
 [node name="creditsButt" type="Button" parent="TitleScreen"]
 modulate = Color(1, 1, 1, 0.164706)
 self_modulate = Color(0.352941, 1, 1, 1)
 offset_left = -483.579
-offset_top = -31.1985
+offset_top = 213.191
 offset_right = 473.421
-offset_bottom = 111.801
+offset_bottom = 356.191
 
 [connection signal="pressed" from="TitleScreen/newGameButt" to="." method="_on_new_game_butt_pressed"]
-[connection signal="pressed" from="TitleScreen/continueButt" to="." method="_on_continue_butt_pressed"]
-[connection signal="pressed" from="TitleScreen/creditsButt" to="." method="_on_credits_butt_pressed"]
+[connection signal="pressed" from="TitleScreen/continueButt" to="." method="_on_credits_butt_pressed"]
+[connection signal="pressed" from="TitleScreen/creditsButt" to="." method="_on_continue_butt_pressed"]
