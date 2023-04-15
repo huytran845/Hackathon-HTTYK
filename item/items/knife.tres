@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://cxxg2w5rl5kb4"]
+
+[ext_resource type="Script" path="res://item/item_data.gd" id="1_c3120"]
+[ext_resource type="Texture2D" uid="uid://bvgrdcj4qpa22" path="res://item/item_atlas.tres" id="2_3lgnl"]
+
+[resource]
+script = ExtResource("1_c3120")
+name = "Knife"
+description = "A very good knife if you know how to use it."
+stackable = false
+texture = ExtResource("2_3lgnl")
