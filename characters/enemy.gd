@@ -1,9 +1,8 @@
 extends CharacterBody2D
 
-var isPlayer = true
+var isPlayer = false
 @onready var spriteImage = $Sprite2D
 @onready var stateTimer = $stateTimer
-@onready var tomatoscene = load("res://tomato.gd")
 @onready var battleInstance = load("res://scenes/battle_screen.tscn")
 @export var skills = []
 @export var eHealth = 0.0
@@ -15,23 +14,25 @@ var isPlayer = true
 @export var level = 0.0
 @export var moveSpeed = 0.0
 @export var skillsChance = 0.0
-@export var character = ""
+@export var character = "onion"
 @export var timerWaitTime = 0.0
 @export var enemyNum = 1
+var eNums = 2
 var player
 var move_direction : Vector2 = Vector2.ZERO
 enum enemyState {Idle,Walk,Chase,Freeze}
 var currentState : enemyState = enemyState.Idle
 var Enemy 
 
-func setUp(character):
+func _ready():
 	#The character is exported and then loads the proper sprite
-	spriteImage.texture = load("res://images/" + str(character) + "/.png")
+	spriteImage.texture = load("res://images/" + str(character) + "Battle.png")
 	var enemyInstance = load("res://objects/" + character + ".gd")
 	Enemy = enemyInstance.new()
 	#Depending on the enemy, different stats will load depending on their difficulty
 	Enemy.load_stats()
 	matchStats()
+	pick_new_state()
 
 func matchStats():
 	#Matches the stats from this script to the one loaded above in the enemy class
@@ -41,6 +42,7 @@ func matchStats():
 	eDef = Enemy.eDef
 	eSpeed = Enemy.eSpeed
 	eLuck = Enemy.eLuck
+	skills = Enemy.skills
 	timerWaitTime = Enemy.timerWaitTime
 	skillsChance = Enemy.skillsChance
 
@@ -71,10 +73,11 @@ func select_new_direction():
 		spriteImage.flip_h = false
 
 func pick_new_state():
+	
 	if currentState == enemyState.Idle:
 		currentState = enemyState.Walk
 		select_new_direction()
-		stateTimer.wait_time = 5 
+		stateTimer.wait_time = timerWaitTime
 		stateTimer.start()
 		stateTimer.one_shot = true
 	elif currentState == enemyState.Walk:
@@ -118,8 +121,11 @@ func _on_state_timer_timeout():
 func _on_enter_battle_body_entered(body):
 	#Player touched enemy and will battle
 	if body.isPlayer == true:
+		
+		
+		get_parent().get_parent().get_parent().battleEnter(eNums)
 		#Freezes all the other enemies
-		get_parent().get_parent().get_parent().battleStart(enemyNum)
+		
 
 func _on_battle_screen_battle_ended():
 	var unfreezeTimer = Timer.new()

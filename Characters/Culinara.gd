@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 # @export lets you see it in the inspector
+var isPlayer = true
 @export var moveSpeed : float = 100
 @export var startingDirection : Vector2 = Vector2(0,1)
 @export var pHealth : float = 100
@@ -15,7 +16,8 @@ extends CharacterBody2D
 @onready var stateMachine = animationTree.get("parameters/playback") # Initializing thing that will let use change between states
 
 func _ready():
-	updateCharacterAnimation(startingDirection)
+	pass
+	#updateCharacterAnimation(startingDirection)
 
 # Runs a certain number of times per second (Useful for objects that need physics)
 func _physics_process(_delta): # Underscore on the variable means it's unused
@@ -27,8 +29,7 @@ func _physics_process(_delta): # Underscore on the variable means it's unused
 		#Positive value is for downwards movement, and negative value is for upwards movement
 		Input.get_action_strength("down") - Input.get_action_strength("up") # For y axis movement
 	)
-
-	updateCharacterAnimation(inputDirection)
+	#updateCharacterAnimation(inputDirection)
 	
 	#Updating Velocity
 	velocity = inputDirection * moveSpeed
@@ -37,19 +38,19 @@ func _physics_process(_delta): # Underscore on the variable means it's unused
 	move_and_slide()
 	
 	#After movement is starts, we change their animation
-	pickNewState()
-	
-	
-func updateCharacterAnimation(moveInput: Vector2):
-	#Won't change animation if there's no move input
-	if (moveInput != Vector2.ZERO):
-		animationTree.set("parameters/Walk/blend_position", moveInput)
-		animationTree.set("parameter/Idle/blend_position", moveInput)
+#	pickNewState()
+#
+#
+#func updateCharacterAnimation(moveInput: Vector2):
+#	#Won't change animation if there's no move input
+#	if (moveInput != Vector2.ZERO):
+#		animationTree.set("parameters/Walk/blend_position", moveInput)
+#		animationTree.set("parameter/Idle/blend_position", moveInput)
 
 #Choose state based on what the player is doing
-func pickNewState():
-	#Animation won't change if no input is detected
-	if (velocity != Vector2.ZERO): #If input found, start walk animation
-		stateMachine.travel("Walk")
-	else:
-		stateMachine.travel("Idle")
+#func pickNewState():
+#	#Animation won't change if no input is detected
+#	if (velocity != Vector2.ZERO): #If input found, start walk animation
+#		stateMachine.travel("Walk")
+#	else:
+#		stateMachine.travel("Idle")
