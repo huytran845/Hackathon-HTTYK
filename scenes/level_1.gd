@@ -9,7 +9,7 @@ signal battleEntered
 
 var canMove = true
 #0 - not battling, 1 battling, 2 victory, 3 is ran away
-var playerVictory = 0 
+var playerVictory = 0
 
 #func _ready():
 	#pass
