@@ -35,6 +35,7 @@ func battleStart(enemyNum): #Sends the stats to the battleScene. I don't know ho
 	var battleScene = battleInstance.instantiate()
 	$CanvasLayer/TileMap.add_child(battleScene)
 	if enemyNum == 1: 
+		print("E = 1")
 		var enHealth = Enemy1.eHealth
 		var enEnergy = Enemy1.eEnergy
 		var enAtk = Enemy1.eAtk
@@ -51,6 +52,7 @@ func battleStart(enemyNum): #Sends the stats to the battleScene. I don't know ho
 		var plLuck = Player.pLuck 
 		battleScene.battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance)
 	elif enemyNum == 2:
+		print("E = 2")
 		var enHealth = Enemy2.eHealth
 		var enEnergy = Enemy2.eEnergy
 		var enAtk = Enemy2.eAtk
@@ -66,7 +68,8 @@ func battleStart(enemyNum): #Sends the stats to the battleScene. I don't know ho
 		var plSpeed = Player.pSpeed
 		var plLuck = Player.pLuck 
 		battleScene.battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance)
-	elif enemyNum == 3:
+	else:
+		print("E = 3")
 		var enHealth = Enemy3.eHealth
 		var enEnergy = Enemy3.eEnergy
 		var enAtk = Enemy3.eAtk
@@ -82,6 +85,7 @@ func battleStart(enemyNum): #Sends the stats to the battleScene. I don't know ho
 		var plSpeed = Player.pSpeed
 		var plLuck = Player.pLuck 
 		battleScene.battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance)
+
 
 func battleEnded(enemyNum): #EnemyNum is a unqiue exported variable which should identify which enemy to delete after a battle finishes assuming player victory
 	canMove = true

@@ -37,7 +37,7 @@ var pStatus = 1.0
 var eStatus = 1.0
 var buttonPressed = "attack"
 var battlers = 2
-var textFinished = true
+var textFinished = false
 var textBlock = []
 var textIndex = 0
 var toPlayer = false
@@ -45,6 +45,7 @@ var eNum = 0
 var isPlayerVictorious = false
 
 func battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance):
+	print("Battle is setting up")
 	eNum = enemyNum
 	pHealth = plHealth
 	pEnergy = plEnergy
@@ -63,10 +64,13 @@ func battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,
 	#Determines who is faster
 	if pSpeed >= eSpeed:
 		playerTurn()
+		print("Player is faster")
 	elif eSpeed > pSpeed:
 		enemyTurn()
+		print("enemy is faster")
 
 func playerTurn():
+	print("Player turn")
 	#Prevent player from pressing on enemy> This feature was implemented in case we wanted to do battles with more than one monster involved...
 	$playerUi/enemy.disabled = true
 	$playerUi/enemy.set_process_input(false)
@@ -82,15 +86,17 @@ func playerTurn():
 	$playerUi/PlayerMenu/playerMenu/GridContainer/Fight.grab_focus()
 
 func enemyTurn():
+	print("Enemy Turn")
 	$playerUi/PlayerMenu/playerMenu.visible = false
 	$playerUi/PlayerMenu/playerMenu/cursor.visible = false
 	$textBox/textBox.visible = true
+	$playerUi/enemy.disabled = true
 	#As actions happen, textBlock takes note and display all of them at the end to the Player instead of displaying it when it's happening.
 	textBlock.append("The Enemy readies for an attack!")
 	turns += 1
 	#Must determine the probablity of enemy using skill. Every enemy has a different likelihood of using a skill as opposed to attacking normally
 	var useSkillChance = randf()
-	var skillChoose = randi_range(0,eSkills.size())
+	var skillChoose = randi_range(0,eSkills.size()-1)
 	var skillName = eSkills[skillChoose]
 	var skillScript = load("res://objects/" + str(skillName) + ".gd")
 	var skillActive = skillScript.new()
@@ -173,11 +179,14 @@ func _on_enemy_pressed():
 				var dmg = (((pAtk*pBuffs*pStatus)*1.5)*randf_range(0.8,1)-eDef)
 				dmg = roundToTwo(dmg,2)
 				eHealth -= dmg
+				textBlock.append("You bit the enemy! CRITICAL HIT! It took " + str(dmg) + " damage!")
 			var dmg = ((pAtk*pBuffs*pStatus)*randf_range(0.8,1)-eDef)
 			dmg = roundToTwo(dmg,2)
 			eHealth -= dmg
 			textBlock.append("You bit the enemy! It took " + str(dmg) + " damage!")
 			#Check Enemy Turn
+		else:
+			textBlock.append("The enemy evaded your attack!")
 	if eHealth <= 0:
 		battleEnd()
 		#enemy defeated
@@ -208,7 +217,6 @@ func battleEnd():
 	textBlock = ["The enemy has died! You have won!"]
 	textIndex = 0
 	isPlayerVictorious = true
-	$textBox/textBox.visible = false
 	$playerUi/PlayerMenu/playerMenu.visible = false
 	$textBox/textBox.visible = true
 	playTextAnimation()
@@ -225,8 +233,10 @@ func playTextAnimation():
 func _input(event):
 	#On Enter, if text animation is finished, move on to the next dialog or end and continue turns
 	if $textBox/textBox.visible == true and event is InputEventKey and event.keycode  == KEY_ENTER and event.pressed == true and textFinished == true:
+		
 		if textIndex < textBlock.size()-1:
 			#play next dialog
+			
 			textIndex += 1
 			textBox.text = textBlock[textIndex]
 			textAnimation.play("textAnimation")

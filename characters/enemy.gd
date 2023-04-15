@@ -16,7 +16,7 @@ var isPlayer = false
 @export var skillsChance = 0.0
 @export var character = "onion"
 @export var timerWaitTime = 0.0
-@export var enemyNum = 1
+@export var enemyNum : int
 var canMove = true
 var eNums = 2
 var player
