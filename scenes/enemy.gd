@@ -1,28 +1,100 @@
 extends CharacterBody2D
 
+var isPlayer = false
+@onready var spriteImage = $Sprite2D
+@onready var stateTimer = $stateTimer
+@onready var tomatoscene = load("res://tomato.gd")
+@export var skills = []
+@export var eHealth = 0.0
+@export var eEnergy = 0.0
+@export var eAtk = 0.0
+@export var eDef = 0.0
+@export var eSpeed = 0.0
+@export var eLuck = 0.0
+@export var level = 0.0
+@export var moveSpeed = 0.0
+@export var skillsChance = 0.0
+@export var character = ""
+@export var timerWaitTime = 0.0
+var player
+var move_direction : Vector2 = Vector2.ZERO
+enum enemyState {Idle,Walk,Chase,Freeze}
+var currentState : enemyState = enemyState.Idle
+var Enemy 
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+func setUp(character):
+	spriteImage.texture = load("res://images/" + str(character) + "/.png")
+	var enemyInstance = load("res://objects/" + character + ".gd")
+	Enemy = enemyInstance.new()
+	Enemy.load_stats()
+	matchStats()
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
+func matchStats():
+	eHealth = Enemy.eHealth
+	eEnergy = Enemy.eEnergy
+	eAtk = Enemy.eAtk
+	eDef = Enemy.eDef
+	eSpeed = Enemy.eSpeed
+	eLuck = Enemy.eLuck
+	timerWaitTime = Enemy.timerWaitTime
+	skillsChance = Enemy.skillsChance
 
 func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	if player and currentState == enemyState.Chase:
+		velocity = position.direction_to(player.position)*(moveSpeed)*2
+		move_and_slide()
+	elif currentState == enemyState.Walk:
+		velocity = move_direction*moveSpeed
+		move_and_slide()
 
-	# Handle Jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+func select_new_direction():
+	randomize()
+	move_direction = Vector2(
+		randi_range(-1,1),
+		randi_range(-1,1)
+	)
+	if (move_direction.x <0):
+		spriteImage.flip_h = true
+	elif move_direction.x > 0:
+		spriteImage.flip_h = false
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+func pick_new_state():
+	if currentState == enemyState.Idle:
+		currentState = enemyState.Walk
+		select_new_direction()
+		stateTimer.wait_time = 5 
+		stateTimer.start()
+		stateTimer.one_shot = true
+	elif currentState == enemyState.Walk:
+		currentState = enemyState.Idle
+		stateTimer.wait_time = 5 
+		stateTimer.start()
+		stateTimer.one_shot = true
 
-	move_and_slide()
+
+func _on_chase_area_body_entered(body):
+	if body.isPlayer == true:
+		player = body
+		currentState = enemyState.Chase
+
+
+func _on_chase_area_body_exited(body):
+	if body.isPlayer == true:
+		player = null
+		currentState = enemyState.Freeze
+		velocity = Vector2(0,0)
+		
+
+
+func _on_state_timer_timeout():
+	if currentState == enemyState.Walk:
+		currentState = enemyState.Idle
+		stateTimer.wait_time = timerWaitTime
+		stateTimer.start()
+		stateTimer.one_shot = true
+	elif currentState == enemyState.Idle:
+		currentState = enemyState.Walk
+		select_new_direction()
+		stateTimer.wait_time = timerWaitTime 
+		stateTimer.start()
+		stateTimer.one_shot = true
