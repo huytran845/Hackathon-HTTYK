@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b667usll5v26r"]
+[gd_scene load_steps=5 format=3 uid="uid://b667usll5v26r"]
 
 [ext_resource type="Texture2D" uid="uid://cr5shtc3r3rqt" path="res://Characters/Culinara.png" id="1_44wyt"]
 [ext_resource type="Script" path="res://Characters/Culinara.gd" id="2_jt8p3"]
+
+[sub_resource type="AnimationRootNode" id="AnimationRootNode_6pi0w"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ymnwa"]
 radius = 16.0
@@ -19,6 +21,8 @@ vframes = 3
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationRootNode_6pi0w")
+anim_player = NodePath("../AnimationPlayer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(22, 47)
