@@ -1,21 +1,13 @@
 extends Control
 
-var mainScene
-@onready var saveFile = SaveGame.gameData #From the auto load, this lets us reference the script we setup in main
-
-func _ready():
-	mainScene = get_tree().get_root().get_node("Main")
+@onready var saveFile = SaveGame.gameData #Referencing a potential save that occurred
 
 func _on_new_game_butt_pressed():
-	mainScene.loadLevel1()
-
+	get_tree().change_scene_to_file("res://scenes//level_1.tscn")
 
 func _on_continue_butt_pressed():
-	mainScene.loadLevel1()
-
-
+	SaveGame.loadData()
+	get_tree().change_scene_to_file("res://scenes//level_1.tscn")
+	
 func _on_credits_butt_pressed():
-	saveFile.pHealth -= 1 
-	print(saveFile.pHealth)
-	SaveGame.saveData()
-	print(saveFile.pHealth)
+	pass
