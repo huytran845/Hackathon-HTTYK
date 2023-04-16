@@ -1,4 +1,4 @@
-class_name cry
+class_name invisiblity
 extends Node
 
 func energyCost():
@@ -8,10 +8,7 @@ func specialSkill():
 	return true
 
 func isDebuff():
-	return true
-
-func targetStat():
-	return "attack"
+	return "accuracy"
 
 func useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,pBuffs,eHealth,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs):
 	return 0.2

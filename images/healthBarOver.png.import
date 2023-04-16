@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr5shtc3r3rqt"
-path="res://.godot/imported/Culinara.png-3bd7e2e9ea1f979bd98f5185c8978e0e.ctex"
+uid="uid://dna1g0e4o3o4i"
+path="res://.godot/imported/healthBarOver.png-21f252f33d082e977d1e05f2b1d6755c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://characters/Culinara.png"
-dest_files=["res://.godot/imported/Culinara.png-3bd7e2e9ea1f979bd98f5185c8978e0e.ctex"]
+source_file="res://images/healthBarOver.png"
+dest_files=["res://.godot/imported/healthBarOver.png-21f252f33d082e977d1e05f2b1d6755c.ctex"]
 
 [params]
 

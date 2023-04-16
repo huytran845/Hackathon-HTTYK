@@ -16,7 +16,7 @@ var playerVictory = 0
 
 func battleEnter(eNums):
 	#Stop all other enemies from moving. Not sure if it actually works tho
-	canMove = false
+	
 	$CanvasLayer/AnimationPlayer.play("battleTransition") 
 	emit_signal("battleEntered") #Emits to all other enemies to stop moving
 	$CanvasLayer.layer = -2
@@ -89,7 +89,7 @@ func battleStart(enemyNum): #Sends the stats to the battleScene. I don't know ho
 
 
 func battleEnded(enemyNum): #EnemyNum is a unqiue exported variable which should identify which enemy to delete after a battle finishes assuming player victory
-	canMove = true
+	Player.canMove = true
 	playerVictory = 2
 	Player.set_process_input(true)
 	if enemyNum == 1:
@@ -98,8 +98,6 @@ func battleEnded(enemyNum): #EnemyNum is a unqiue exported variable which should
 		$CanvasLayer/TileMap/Enemy2.queue_free()
 	elif enemyNum == 3:
 		$CanvasLayer/TileMap/Enemy3.queue_free()
-	$CanvasLayer.layer = 1
-	
 
 
 func _on_animation_player_animation_finished(anim_name):

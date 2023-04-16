@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 # @export lets you see it in the inspector
-@export var moveSpeed : float = 100
+@export var moveSpeed : float = 300
 @export var startingDirection : Vector2 = Vector2(0,1)
 @export var pHealth : float = 100
 @export var pEnergy : float = 100

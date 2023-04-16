@@ -1,7 +1,7 @@
-class_name onion
+class_name pepper
 extends Node
 
-var skills = ["cry","playerCry"]
+var skills = ["invisibility","intangible","burn"]
 var eHealth = 0.0
 var eEnergy = 0.0
 var eAtk = 0.0
@@ -9,15 +9,15 @@ var eDef = 0.0
 var eSpeed = 0.0
 var eLuck = 10
 var level = 1.0
-var eName = "Dragonion"
-var moveSpeed = 50.0
-var skillsChance = 0.8
-var timerWaitTime = 2
-var statsCalc = 0.95
+var eName = "Ghost Pepper"
+var moveSpeed = 10.0
+var skillsChance = 0.9
+var timerWaitTime = 4
+var statsCalc = 0.25
 var baseHighHealth = 100
-var baseLowHealth = 50
-var baseHigh = 20
-var baseLow = 10
+var baseLowHealth = 25
+var baseHigh = 5
+var baseLow = 5
 
 func load_stats():
 	randomize()

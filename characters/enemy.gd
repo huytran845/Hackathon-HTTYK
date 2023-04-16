@@ -27,6 +27,7 @@ var Enemy
 var battlingPlayer = false
 
 func _ready():
+	
 	#The character is exported and then loads the proper sprite 
 	#This should load the file == to res://images/onionBatte.png if the character set was onion
 	spriteImage.texture = load("res://images/" + str(character) + "Battle.png")
@@ -102,6 +103,7 @@ func pick_new_state():
 
 func _on_chase_area_body_entered(body):
 	#If player enter radius to give chase, enemy gives chase.
+	
 	if body.isPlayer:
 		player = body
 		currentState = enemyState.Chase

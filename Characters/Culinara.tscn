@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=3 uid="uid://b667usll5v26r"]
 
-[ext_resource type="Texture2D" uid="uid://cr5shtc3r3rqt" path="res://Characters/Culinara.png" id="1_44wyt"]
+[ext_resource type="Texture2D" uid="uid://cr5shtc3r3rqt" path="res://characters/Culinara.png" id="1_44wyt"]
 [ext_resource type="Script" path="res://Characters/Culinara.gd" id="2_jt8p3"]
 
 [sub_resource type="Animation" id="Animation_sft5c"]
@@ -342,14 +342,14 @@ graph_offset = Vector2(-29.0508, 0)
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_m1kvy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ymnwa"]
-radius = 19.0
-height = 94.0
+radius = 55.0
+height = 270.0
 
 [node name="Culinara" type="CharacterBody2D"]
 script = ExtResource("2_jt8p3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -8.33333)
+position = Vector2(0, -5.58017)
 texture = ExtResource("1_44wyt")
 offset = Vector2(14, 0)
 hframes = 5
@@ -370,5 +370,5 @@ parameters/Idle/blend_position = Vector2(0, 0)
 parameters/Walk/blend_position = Vector2(0, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 72)
+position = Vector2(-4, -8)
 shape = SubResource("CapsuleShape2D_ymnwa")

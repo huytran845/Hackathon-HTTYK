@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr5shtc3r3rqt"
-path="res://.godot/imported/Culinara.png-3bd7e2e9ea1f979bd98f5185c8978e0e.ctex"
+uid="uid://jmxtho7brs0u"
+path="res://.godot/imported/tilesetLeftBorder.png-a207d16df9ec773149d863221dcf475c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://characters/Culinara.png"
-dest_files=["res://.godot/imported/Culinara.png-3bd7e2e9ea1f979bd98f5185c8978e0e.ctex"]
+source_file="res://images/tilesetLeftBorder.png"
+dest_files=["res://.godot/imported/tilesetLeftBorder.png-a207d16df9ec773149d863221dcf475c.ctex"]
 
 [params]
 
