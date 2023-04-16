@@ -97,7 +97,7 @@ func battleEnded(enemyNum): #EnemyNum is a unqiue exported variable which should
 		$CanvasLayer/TileMap/Enemy3.queue_free()
 
 
-func _on_animation_player_animation_finished(anim_name):
+func _on_animation_player_animation_finished(_anim_name):
 	battleStart()
 
 signal toggle_inventory()

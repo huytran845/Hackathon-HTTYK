@@ -50,6 +50,7 @@ var isPlayerTurn = false
 var battleSituations = 0
 var eChara
 var isBurned = false
+var hasRan = false
 
 func battleSetup(enCharacter,enName,enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance):
 	eName = enName
@@ -125,8 +126,10 @@ func enemyTurn():
 		showText(text)
 	elif dialogChance == 2:
 		var text = "It's either eat or be eaten..."
+		showText(text)
 	else:
 		var text = "Let's dish up something special!"
+		showText(text)
 	textButton.disabled = false
 	textButton.grab_focus()
 	battleSituations = 1
@@ -159,6 +162,7 @@ func enemyActionTurn():
 				burn()
 			else:
 				var text = "Ghost Pepper tried to burn you again, but you're already on fire!"
+				showText(text)
 		#If here, then skill activated
 		elif skillActive.specialSkill():
 			#Special skill = anything that isn't direct damage
@@ -247,7 +251,7 @@ func enemyTurnEnds():
 			playerTurn()
 
 func burn():
-	pass
+	isBurned = true
 
 func gameOver():
 	var gameOverInstance = load("res://scenes/game_over.tscn")
@@ -286,10 +290,17 @@ func _on_fight_pressed():
 		showText(text)
 	battleSituations = 4
 
+func _on_run_pressed():
+	hasRan = true
+	battleSituations = 7
+	battleEnd()
+
 func playerTurnEnds():
 	if eHealth <= 0:
 		battleEnd()
 		#enemy defeated
+	elif hasRan == true:
+		battleEnd() #Player has ran away
 	else:
 		battleSituations = 8
 		if isBurned:
@@ -298,6 +309,7 @@ func playerTurnEnds():
 			var dmg = ($playerUi/PlayerMenu/Health.max_value*0.1)
 			pHealth -= dmg
 			var text = "Ouch! You took " + str(dmg) + " damage from the spicy flavors!"
+			showText(text)
 		else:
 			randomize()
 			var dialogChance = randi_range(3,1)
@@ -355,9 +367,14 @@ func calculateTurnOrder():
 func battleEnd():
 	get_parent().get_parent().get_parent().battleEnded(eNum)
 	battleSituations = 7
-	var text = "The enemy has died! You have won!"
-	showText(text)
-	isPlayerVictorious = true
+	if hasRan == false:
+		var text = "The enemy has died! You have won!"
+		showText(text)
+		isPlayerVictorious = true
+	else:
+		var text = "You've ran away!"
+		showText(text)
+		isPlayerVictorious = false
 
 
 func endingDialog():
@@ -373,12 +390,9 @@ func playTextAnimation():
 #		if $textBox/textBox.visible == true and event is InputEventKey and event.scancode == KEY_ENTER and event.pressed == true and textFinished == true:
 #			pass
 
-func _on_text_animation_animation_finished(anim_name):
+func _on_text_animation_animation_finished(_anim_name):
 	$textBox/textBox/MarginContainer/RichTextLabel.disabled = false
 	$textBox/textBox/MarginContainer/RichTextLabel.grab_focus()
-
-
-
 
 func _on_rich_text_label_pressed():
 	$textBox/textBox/MarginContainer/RichTextLabel.disabled = true
@@ -391,17 +405,20 @@ func _on_rich_text_label_pressed():
 	elif battleSituations == 2:
 		enemyTurnEnds()
 		
-	elif battleSituations == 3:
-		
+	elif battleSituations == 3:	
 		gameOver()
+		
 	elif battleSituations == 4:
 		playerTurnEnds()
 		
 	elif battleSituations == 5:
 		playerTurn()
+		
 	elif battleSituations == 6:
 		enemyTurn()
+		
 	elif battleSituations == 7:
 		self.queue_free()
+		
 	elif battleSituations == 8:
 		determineNextActions()

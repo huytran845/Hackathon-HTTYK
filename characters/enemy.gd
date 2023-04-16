@@ -63,7 +63,7 @@ func matchStats():
 	timerWaitTime = Enemy.timerWaitTime
 	skillsChance = Enemy.skillsChance
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	#Freeze takes priority over everything. Happens when player enters battle or 3 seconds after a battle ended
 	if currentState == enemyState.Freeze or get_parent().get_parent().get_parent().canMove == false:
 		velocity = Vector2(0,0)*0

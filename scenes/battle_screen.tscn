@@ -262,7 +262,6 @@ expand_icon = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Run"
 icon = ExtResource("6_wxhco")
 icon_alignment = 1
 expand_icon = true
@@ -395,5 +394,6 @@ stream = ExtResource("14_obe8a")
 autoplay = true
 
 [connection signal="pressed" from="playerUi/PlayerMenu/playerMenu/GridContainer/Fight" to="." method="_on_fight_pressed"]
+[connection signal="pressed" from="playerUi/PlayerMenu/playerMenu/GridContainer/Run" to="." method="_on_run_pressed"]
 [connection signal="pressed" from="textBox/textBox/MarginContainer/RichTextLabel" to="." method="_on_rich_text_label_pressed"]
 [connection signal="animation_finished" from="textBox/textAnimation" to="." method="_on_text_animation_animation_finished"]
