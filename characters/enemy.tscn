@@ -4,21 +4,21 @@
 [ext_resource type="Texture2D" uid="uid://tth5oj3vsmju" path="res://images/onionBattle.png" id="2_ixfn3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k0phg"]
-radius = 5925.93
+radius = 3745.13
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xf746"]
-radius = 76.0066
+radius = 59.0085
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fook8"]
-radius = 93.0484
+radius = 69.0652
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_56ok6")
 moveSpeed = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(75.3125, -91.8813)
-scale = Vector2(0.0786875, 0.0786875)
+position = Vector2(69.8125, -85.1713)
+scale = Vector2(0.0731875, 0.0731875)
 texture = ExtResource("2_ixfn3")
 
 [node name="chaseArea" type="Area2D" parent="Sprite2D"]
@@ -27,7 +27,7 @@ texture = ExtResource("2_ixfn3")
 shape = SubResource("CircleShape2D_k0phg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(79, -94)
+position = Vector2(77, -88)
 shape = SubResource("CircleShape2D_xf746")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -37,7 +37,7 @@ shape = SubResource("CircleShape2D_xf746")
 [node name="enterBattle" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enterBattle"]
-position = Vector2(74, -95)
+position = Vector2(76, -86)
 shape = SubResource("CircleShape2D_fook8")
 
 [connection signal="body_entered" from="Sprite2D/chaseArea" to="." method="_on_chase_area_body_entered"]

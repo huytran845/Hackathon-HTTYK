@@ -1,11 +1,11 @@
-extends Control
+extends Node2D
 
 signal battleEntered
 @onready var battleInstance = load("res://scenes/battle_screen.tscn")
 @onready var Enemy1 = $CanvasLayer/TileMap/Enemy
 @onready var Enemy2 = $CanvasLayer/TileMap/Enemy2
 @onready var Enemy3 = $CanvasLayer/TileMap/Enemy3
-@onready var Player = $CanvasLayer/TileMap/Culinara
+@onready var Player = $CanvasLayer/Culinara
 
 var canMove = true
 #0 - not battling, 1 battling, 2 victory, 3 is ran away

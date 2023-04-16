@@ -1,4 +1,4 @@
-extends Control
+extends Node2D
 
 @onready var menuInstance = load("res://scenes/menu.tscn")
 @onready var titleInstance = preload("res://scenes/title_screen.tscn")

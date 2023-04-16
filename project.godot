@@ -21,7 +21,7 @@ SaveGame="*res://Save/save_game.gd"
 
 [display]
 
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
 
 [input]
 

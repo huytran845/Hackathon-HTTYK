@@ -106,49 +106,49 @@ func enemyActionTurn():
 	#Must determine the probablity of enemy using skill. Every enemy has a different likelihood of using a skill as opposed to attacking normally
 	var useSkillChance = randf()
 	battleSituations = 2
-	if 1 == 2:
-		var skillChoose = randi_range(0,eSkills.size()-1)
-		var skillName = eSkills[skillChoose]
-		var skillScript = load("res://objects/" + str(skillName) + ".gd")
-		var skillActive = skillScript.new()
-		if useSkillChance >= eSkillChance and skillActive.energyCost() <= eEnergy:
-			
-			#If here, then skill activated
-			if skillActive.specialSkill():
-				#Special skill = anything that isn't direct damage
-				if skillActive.isDebuff() == true:
-					#Debuffs the player
-					if skillName == "invisiblity":
-						if pAccuracyBuff >= 0.4:
-							pAccuracyBuff -= 0.2
-						else:
-							
-							var text = "Your accuracy can't go any lower!"
-							showText(text)
-					if pBuffs > 0.4:
-						pBuffs -= skillActive.useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,eHealth,pBuffs,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs)
+	print(eSkills)
+	var skillChoose = randi_range(0,eSkills.size()-1)
+	var skillName = eSkills[skillChoose]
+	var skillScript = load("res://objects/" + str(skillName) + ".gd")
+	var skillActive = skillScript.new()
+	if useSkillChance >= eSkillChance and skillActive.energyCost() <= eEnergy:
+		
+		#If here, then skill activated
+		if skillActive.specialSkill():
+			#Special skill = anything that isn't direct damage
+			if skillActive.isDebuff() == true:
+				#Debuffs the player
+				if skillName == "invisiblity":
+					if pAccuracyBuff >= 0.4:
+						pAccuracyBuff -= 0.2
+					else:
 						
-						var text = ("The enemy uses " + skillName + "! Your attack went down!")
+						var text = "Your accuracy can't go any lower!"
 						showText(text)
-						
-				elif skillActive.isBuff() == true:
-					#Buff self
-					eBuffs += skillActive.useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,eHealth,pBuffs,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs)
+				if pBuffs > 0.4:
+					pBuffs -= skillActive.useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,eHealth,pBuffs,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs)
 					
-					var text = ("The enemy uses " + skillName + "! Their attack went up!")
+					var text = ("The enemy uses " + skillName + "! Your attack went down!")
 					showText(text)
 					
-			else:
-				#Normal skill. Causes normal damage with no special effects
-				var dmg = skillActive.useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,eHealth,pBuffs,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs)
-				#roundtoTwo rounds to the nearest decimal point
-				dmg = roundToTwo(dmg,2)
-				pHealth -= dmg - pDef
-				$playerUi/PlayerMenu/Health.value -= dmg - pDef
-				textboxBackground.visible = true
-				var text = ("The enemy uses " + skillName + "! You took " + str(dmg) + "!")
+			elif skillActive.isBuff() == true:
+				#Buff self
+				eBuffs += skillActive.useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,eHealth,pBuffs,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs)
+				
+				var text = ("The enemy uses " + skillName + "! Their attack went up!")
 				showText(text)
 				
+		else:
+			#Normal skill. Causes normal damage with no special effects
+			var dmg = skillActive.useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,eHealth,pBuffs,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs)
+			#roundtoTwo rounds to the nearest decimal point
+			dmg = roundToTwo(dmg,2)
+			pHealth -= dmg - pDef
+			$playerUi/PlayerMenu/Health.value -= dmg - pDef
+			textboxBackground.visible = true
+			var text = ("The enemy uses " + skillName + "! You took " + str(dmg) + "!")
+			showText(text)
+			
 		skillActive.queue_free()
 	else:
 		#Enemy decided not to use a skill and attakcs normally

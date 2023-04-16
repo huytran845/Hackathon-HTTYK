@@ -349,7 +349,7 @@ height = 270.0
 script = ExtResource("2_jt8p3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -5.58017)
+position = Vector2(0, -4.97849)
 texture = ExtResource("1_44wyt")
 offset = Vector2(14, 0)
 hframes = 5
@@ -372,3 +372,7 @@ parameters/Walk/blend_position = Vector2(0, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-4, -8)
 shape = SubResource("CapsuleShape2D_ymnwa")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-1, -2.01991)
+zoom = Vector2(1.5, 1.5)

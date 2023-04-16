@@ -1,4 +1,4 @@
-extends Control
+extends Node2D
 
 @onready var saveFile = SaveGame.gameData #Referencing a potential save that occurred
 
