@@ -5,6 +5,7 @@ var isPlayer = false
 @onready var stateTimer = $stateTimer
 @onready var battleInstance = load("res://scenes/battle_screen.tscn")
 @export var skills = []
+@export var eName = "Dragonion"
 @export var eHealth = 0.0
 @export var eEnergy = 0.0
 @export var eAtk = 0.0
@@ -28,8 +29,15 @@ var battlingPlayer = false
 
 func _ready():
 	
+	if character == "onion":
+		eName = "Dragonion"
+	elif character == "tomato":
+		eName = "Tomaturtle"
+	elif character == "pepper":
+		eName == "Ghost Pepper"
 	#The character is exported and then loads the proper sprite 
 	#This should load the file == to res://images/onionBatte.png if the character set was onion
+	
 	spriteImage.texture = load("res://images/" + str(character) + "Battle.png")
 	#This calls on the class which contains all the enemy's stats and skills, as well as special behavior like skill use frequency
 	var enemyInstance = load("res://objects/" + character + ".gd")
@@ -43,6 +51,7 @@ func _ready():
 
 func matchStats():
 	#Matches the stats from this script to the one loaded above in the enemy class
+	eName = Enemy.eName
 	eHealth = Enemy.eHealth
 	eEnergy = Enemy.eEnergy
 	eAtk = Enemy.eAtk
@@ -50,6 +59,7 @@ func matchStats():
 	eSpeed = Enemy.eSpeed
 	eLuck = Enemy.eLuck
 	skills = Enemy.skills
+	print(skills)
 	timerWaitTime = Enemy.timerWaitTime
 	skillsChance = Enemy.skillsChance
 
@@ -138,6 +148,7 @@ func _on_enter_battle_body_entered(body):
 	if body.isPlayer == true:
 		get_parent().get_parent().get_parent().playerVictory = 1
 		battlingPlayer = true
+		print("character = ", character, "skills = ", skills, " Enemy Number = ", enemyNum)
 		get_parent().get_parent().get_parent().battleEnter(enemyNum)
 		#Freezes all the other enemies
 		

@@ -1,0 +1,111 @@
+[gd_scene load_steps=14 format=3 uid="uid://dd78mdj0my6lg"]
+
+[ext_resource type="Script" path="res://intro.gd" id="1_1stlt"]
+[ext_resource type="Texture2D" uid="uid://h8xq3m26cvgd" path="res://images/intro1.png" id="2_yxave"]
+[ext_resource type="Texture2D" uid="uid://b77800px1331s" path="res://images/intro2.png" id="3_1nyel"]
+[ext_resource type="Texture2D" uid="uid://bvd7txut61g7f" path="res://images/intro.png" id="3_yyb2n"]
+[ext_resource type="Texture2D" uid="uid://ci87tvxpdlw5k" path="res://images/intro3.png" id="4_arldx"]
+[ext_resource type="Texture2D" uid="uid://cvtk6l1xcmfgg" path="res://images/intro4.png" id="4_sxhni"]
+[ext_resource type="Texture2D" uid="uid://hbv8sggfypeq" path="res://images/intro5.png" id="5_x6l7v"]
+[ext_resource type="Texture2D" uid="uid://brmk8w6rpqxnj" path="res://images/intro6.png" id="6_75aae"]
+[ext_resource type="Texture2D" uid="uid://dwas5cddwcv4l" path="res://images/intro7.png" id="7_8qlfp"]
+[ext_resource type="AudioStream" uid="uid://b5pt3fvqwtd05" path="res://images/tinyThiefSong.mp3" id="10_pkvsx"]
+
+[sub_resource type="Animation" id="Animation_mswr3"]
+resource_name = "intro"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("drawings:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.6, 3, 4.6, 6, 7.6, 9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_yxave"), ExtResource("3_yyb2n"), ExtResource("4_arldx"), ExtResource("4_sxhni"), ExtResource("5_x6l7v"), ExtResource("6_75aae"), ExtResource("7_8qlfp")]
+}
+
+[sub_resource type="Animation" id="Animation_kt6vp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("drawings:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_1nyel")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qy24y"]
+_data = {
+"RESET": SubResource("Animation_kt6vp"),
+"intro": SubResource("Animation_mswr3")
+}
+
+[node name="intro" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1stlt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "intro"
+libraries = {
+"": SubResource("AnimationLibrary_qy24y")
+}
+
+[node name="drawings" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -322.0
+offset_right = 576.0
+offset_bottom = 337.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_1nyel")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_pkvsx")
+autoplay = true
+
+[node name="leftBlackScreen" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.017
+offset_right = 236.416
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.992157)
+
+[node name="rightBlackScreen" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.017
+offset_left = 896.0
+offset_right = 1132.42
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.992157)
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 144.0
+offset_bottom = 104.0
+flat = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

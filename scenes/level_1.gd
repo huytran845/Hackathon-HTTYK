@@ -6,17 +6,20 @@ signal battleEntered
 @onready var Enemy2 = $CanvasLayer/TileMap/Enemy2
 @onready var Enemy3 = $CanvasLayer/TileMap/Enemy3
 @onready var Player = $CanvasLayer/Culinara
+var eNum
 
 var canMove = true
 #0 - not battling, 1 battling, 2 victory, 3 is ran away
 var playerVictory = 0
 
 #func _ready():
-	#pass
+#	print("Enemy 1 = ", $CanvasLayer/TileMap/Enemy.character, $CanvasLayer/TileMap/Enemy.enemyNum)
+#	print("Enemy 2 = ", $CanvasLayer/TileMap/Enemy2.character, $CanvasLayer/TileMap/Enemy2.enemyNum)
+#
 
-func battleEnter(eNums):
+func battleEnter(enemyNum):
 	#Stop all other enemies from moving. Not sure if it actually works tho
-	
+	eNum = enemyNum
 	$CanvasLayer/AnimationPlayer.play("battleTransition") 
 	emit_signal("battleEntered") #Emits to all other enemies to stop moving
 	$CanvasLayer.layer = -2
@@ -32,11 +35,18 @@ func battleEnter(eNums):
 
 
 
-func battleStart(enemyNum): #Sends the stats to the battleScene. I don't know how to do this in a better way
+func battleStart(): #Sends the stats to the battleScene. I don't know how to do this in a better way
 	var battleScene = battleInstance.instantiate()
 	$CanvasLayer/TileMap.add_child(battleScene)
-	if enemyNum == 1: 
+	var plHealth = Player.pHealth
+	var plEnergy = Player.pEnergy
+	var plAtk = Player.pAtk
+	var plDef = Player.pDef
+	var plSpeed = Player.pSpeed
+	var plLuck = Player.pLuck 
+	if eNum == 1: 
 		print("E = 1")
+		var enName = Enemy1.eName
 		var enHealth = Enemy1.eHealth
 		var enEnergy = Enemy1.eEnergy
 		var enAtk = Enemy1.eAtk
@@ -45,15 +55,12 @@ func battleStart(enemyNum): #Sends the stats to the battleScene. I don't know ho
 		var enLuck = Enemy1.eLuck
 		var enSkills = Enemy1.skills
 		var enSkillChance = Enemy1.skillsChance
-		var plHealth = Player.pHealth
-		var plEnergy = Player.pEnergy
-		var plAtk = Player.pAtk
-		var plDef = Player.pDef
-		var plSpeed = Player.pSpeed
-		var plLuck = Player.pLuck 
-		battleScene.battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance)
-	elif enemyNum == 2:
+		var enCharacter = Enemy1.character
+		battleScene.battleSetup(enCharacter,enName,eNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance)
+	elif eNum == 2:
 		print("E = 2")
+		var enCharacter = Enemy2.character
+		var enName = Enemy2.eName
 		var enHealth = Enemy2.eHealth
 		var enEnergy = Enemy2.eEnergy
 		var enAtk = Enemy2.eAtk
@@ -62,15 +69,11 @@ func battleStart(enemyNum): #Sends the stats to the battleScene. I don't know ho
 		var enLuck = Enemy2.eLuck
 		var enSkills = Enemy2.skills
 		var enSkillChance = Enemy2.skillsChance
-		var plHealth = Player.pHealth
-		var plEnergy = Player.pEnergy
-		var plAtk = Player.pAtk
-		var plDef = Player.pDef
-		var plSpeed = Player.pSpeed
-		var plLuck = Player.pLuck 
-		battleScene.battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance)
+		battleScene.battleSetup(enCharacter,enName,eNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance)
 	else:
 		print("E = 3")
+		var enCharacter = Enemy3.character
+		var enName = Enemy3.eName
 		var enHealth = Enemy3.eHealth
 		var enEnergy = Enemy3.eEnergy
 		var enAtk = Enemy3.eAtk
@@ -79,13 +82,7 @@ func battleStart(enemyNum): #Sends the stats to the battleScene. I don't know ho
 		var enLuck = Enemy3.eLuck
 		var enSkills = Enemy3.skills
 		var enSkillChance = Enemy3.skillsChance
-		var plHealth = Player.pHealth
-		var plEnergy = Player.pEnergy
-		var plAtk = Player.pAtk
-		var plDef = Player.pDef
-		var plSpeed = Player.pSpeed
-		var plLuck = Player.pLuck 
-		battleScene.battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance)
+		battleScene.battleSetup(enCharacter,enName,eNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance)
 
 
 func battleEnded(enemyNum): #EnemyNum is a unqiue exported variable which should identify which enemy to delete after a battle finishes assuming player victory
@@ -101,8 +98,7 @@ func battleEnded(enemyNum): #EnemyNum is a unqiue exported variable which should
 
 
 func _on_animation_player_animation_finished(anim_name):
-	var enemyNum
-	battleStart(enemyNum)
+	battleStart()
 
 signal toggle_inventory()
 

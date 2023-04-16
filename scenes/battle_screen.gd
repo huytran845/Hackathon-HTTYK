@@ -4,6 +4,7 @@ signal battleEnded
 @onready var textBox = $textBox/textBox/MarginContainer/RichTextLabel/Label
 @onready var textAnimation = $textBox/textAnimation 
 @onready var textButton = $textBox/textBox/MarginContainer/RichTextLabel
+var eName = ""
 var pHealth = 1.0
 var pEnergy = 1.0
 var pAtk = 1.0
@@ -43,14 +44,14 @@ var toPlayer = false
 var eNum = 0
 var isPlayerVictorious = false
 var enterPressed = false
+var foodItem = ""
 @onready var textboxBackground = $textBox/textBox
 var isPlayerTurn = false
 var battleSituations = 0
-func _ready():
-	textFinished = false
+var eChara
 
-func battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance):
-	
+func battleSetup(enCharacter,enName,enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance):
+	eName = enName
 	eNum = enemyNum
 	pHealth = plHealth
 	pEnergy = plEnergy
@@ -65,8 +66,22 @@ func battleSetup(enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,
 	eSpeed = enSpeed
 	eLuck = enLuck
 	eSkills = enSkills
+	eChara = enCharacter
 	eSkillChance = enSkillChance
 	$playerUi/PlayerMenu/Health.max_value = pHealth
+	$playerUi/eHealth.max_value = eHealth
+	$playerUi/PlayerMenu/Energy.max_value = pEnergy
+	$playerUi/eEnergy.max_value = eEnergy
+	$playerUi/PlayerMenu/eName.text = eName
+	if eChara == "onion":
+		eName = "Dragonion"
+	elif eChara == "tomato":
+		eName = "Tomaturtle"
+	elif eChara == "pepper":
+		eName == "Ghost Pepper"
+	print("Food item = ", eChara, "eName = ", eName )
+	$playerUi/enemy.texture = load("res://images/" + str(eChara) + "Battle.png")
+	
 	#Determines who is faster
 	if pSpeed >= eSpeed:
 		playerTurn()
@@ -88,6 +103,7 @@ func playerTurn():
 	$textBox/textBox.set_process_input(false)
 	$playerUi/PlayerMenu/playerMenu.visible = true
 	$playerUi/PlayerMenu/playerMenu.set_process_input(true)
+	$playerUi/PlayerMenu/playerMenu/GridContainer/Fight.disabled = false
 	$playerUi/PlayerMenu/playerMenu/GridContainer/Fight.grab_focus()
 
 func enemyTurn():
@@ -161,12 +177,14 @@ func enemyActionTurn():
 				var dmg = (((eAtk*eAtkBuff*eStatus)*1.5)*randf_range(0.8,1)-(pDef*pDefBuff))
 				dmg = roundToTwo(dmg,2)
 				pHealth -= dmg
+				$playerUi/PlayerMenu/Health.value -= dmg 
 				textboxBackground.visible = true
 				var text = ("The enemy attcks you directly! CRITICAL HIT! You took " + str(dmg) + " damage!")
 				showText(text)
 			var dmg = ((eAtk*eAtkBuff*eStatus)*randf_range(0.8,1)-(pDef*pDefBuff))
 			dmg = roundToTwo(dmg,2)
 			pHealth -= dmg
+			$playerUi/PlayerMenu/Health.value -= dmg 
 			textboxBackground.visible = true
 			var text = ("The enemy attacks you directly! You took " + str(dmg) + "!")
 			showText(text)
@@ -204,6 +222,8 @@ func gameOver():
 	gameOverScene.appear()
 
 func _on_fight_pressed():
+	$playerUi/PlayerMenu/playerMenu/GridContainer/Fight.disabled = true
+	$playerUi/PlayerMenu/playerMenu.visible = false
 	var evadeChance = randf() + (eLuck/1000) - (pLuck/1000)
 	if evadeChance <= 0.99:
 		var critChance = randf() + (pLuck/1000) - (eLuck/1000)
@@ -211,6 +231,7 @@ func _on_fight_pressed():
 			var dmg = (((pAtk*pAtkBuff*pStatus)*1.5)*randf_range(0.8,1)-(eDef*eDefBuff))
 			dmg = roundToTwo(dmg,2)
 			eHealth -= dmg
+			$playerUi/eHealth.value -= dmg
 			textboxBackground.visible = true
 			battleSituations = 4
 			var text = ("You bit the enemy! CRITICAL HIT! It took " + str(dmg) + " damage!")
@@ -220,6 +241,7 @@ func _on_fight_pressed():
 		var dmg = ((pAtk*pAtkBuff*pStatus)*randf_range(0.8,1)-(eDef*eDefBuff))
 		dmg = roundToTwo(dmg,2)
 		eHealth -= dmg
+		$playerUi/eHealth.value -= dmg
 		var text = "You dealt " + str(dmg) + " damage to your opponent!"
 		showText(text)
 		textboxBackground.visible = true
@@ -239,7 +261,6 @@ func playerTurnEnds():
 			turns = 0
 			rounds += 1
 			isPlayerTurn = false
-			$playerUi/PlayerMenu/playerMenu.visible = false
 			textboxBackground.visible = true
 			calculateTurnOrder()
 		else: 

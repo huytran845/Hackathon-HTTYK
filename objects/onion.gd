@@ -14,10 +14,10 @@ var moveSpeed = 50.0
 var skillsChance = 0.8
 var timerWaitTime = 2
 var statsCalc = 0.95
-var baseHighHealth = 100
+var baseHighHealth = 200
 var baseLowHealth = 50
-var baseHigh = 20
-var baseLow = 10
+var baseHigh = 30
+var baseLow = 20
 
 func load_stats():
 	randomize()

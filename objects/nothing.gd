@@ -7,5 +7,5 @@ func energyCost():
 func specialSkill():
 	return false
 
-func useSkill():
+func useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,eHealth,pBuffs,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs):
 	return 0

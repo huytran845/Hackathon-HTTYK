@@ -284,6 +284,13 @@ offset_bottom = 40.0
 layout_mode = 2
 text = "Sugar High"
 
+[node name="eName" type="Label" parent="playerUi/PlayerMenu"]
+layout_mode = 0
+offset_right = 243.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 32
+text = "Dragonion"
+
 [node name="enemy" type="NinePatchRect" parent="playerUi"]
 offset_left = 421.0
 offset_top = -64.0
