@@ -1,4 +1,4 @@
-class_name cry
+
 extends Node
 
 func energyCost():

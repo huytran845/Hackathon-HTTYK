@@ -1,4 +1,4 @@
-class_name playerCry
+
 extends Node
 
 func energyCost():

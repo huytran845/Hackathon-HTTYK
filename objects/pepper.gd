@@ -1,4 +1,4 @@
-class_name pepper
+
 extends Node
 
 var skills = ["invisibility","intangible","burn"]

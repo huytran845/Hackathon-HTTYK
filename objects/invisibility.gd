@@ -1,4 +1,4 @@
-class_name invisiblity
+
 extends Node
 
 func energyCost():

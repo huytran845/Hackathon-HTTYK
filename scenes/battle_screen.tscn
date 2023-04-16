@@ -397,3 +397,4 @@ autoplay = true
 [connection signal="pressed" from="playerUi/PlayerMenu/playerMenu/GridContainer/Run" to="." method="_on_run_pressed"]
 [connection signal="pressed" from="textBox/textBox/MarginContainer/RichTextLabel" to="." method="_on_rich_text_label_pressed"]
 [connection signal="animation_finished" from="textBox/textAnimation" to="." method="_on_text_animation_animation_finished"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]

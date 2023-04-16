@@ -155,7 +155,7 @@ func _on_enter_battle_body_entered(body):
 
 func _on_battle_screen_battle_ended():
 	var unfreezeTimer = Timer.new()
-	unfreezeTimer.wait_time = 3
+	unfreezeTimer.wait_time = 1
 	unfreezeTimer.autostart = false
 	unfreezeTimer.start()
 	unfreezeTimer.timeout.connect("unfreezeTimer",[unfreezeTimer])

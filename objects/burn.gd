@@ -1,4 +1,4 @@
-class_name burn
+
 extends Node
 
 func energyCost():

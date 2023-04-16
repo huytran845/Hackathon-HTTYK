@@ -1,4 +1,5 @@
-class_name onion
+
+
 extends Node
 
 var skills = ["cry","playerCry"]

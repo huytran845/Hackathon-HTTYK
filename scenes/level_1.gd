@@ -18,6 +18,7 @@ var playerVictory = 0
 #
 
 func battleEnter(enemyNum):
+	$AudioStreamPlayer2D.stop()
 	#Stop all other enemies from moving. Not sure if it actually works tho
 	eNum = enemyNum
 	$CanvasLayer/AnimationPlayer.play("battleTransition") 
@@ -87,13 +88,15 @@ func battleStart(): #Sends the stats to the battleScene. I don't know how to do 
 
 func battleEnded(enemyNum): #EnemyNum is a unqiue exported variable which should identify which enemy to delete after a battle finishes assuming player victory
 	Player.canMove = true
-	playerVictory = 2
+	$AudioStreamPlayer2D.stream = load("res://images/Another_Face.mp3")
+	$AudioStreamPlayer2D.play()
+	
 	Player.set_process_input(true)
-	if enemyNum == 1:
+	if enemyNum == 1 and playerVictory == 2:
 		$CanvasLayer/TileMap/Enemy.queue_free()
-	elif enemyNum == 2:
+	elif enemyNum == 2 and playerVictory == 2:
 		$CanvasLayer/TileMap/Enemy2.queue_free()
-	elif enemyNum == 3:
+	elif enemyNum == 3 and playerVictory == 2:
 		$CanvasLayer/TileMap/Enemy3.queue_free()
 
 
@@ -110,3 +113,8 @@ func _on_button_pressed():
 #func _ready() -> void:
 	#player.toggle_inventory.connect(toggle_inventory_interface)
 	#inventory_interface.set_player_inventory_data(culinara.inventory)
+
+
+func _on_audio_stream_player_2d_finished():
+	$AudioStreamPlayer2D.stream = load("res://images/Another_Face.mp3")
+	$AudioStreamPlayer2D.play()

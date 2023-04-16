@@ -297,6 +297,7 @@ func _on_run_pressed():
 
 func playerTurnEnds():
 	if eHealth <= 0:
+		
 		battleEnd()
 		#enemy defeated
 	elif hasRan == true:
@@ -366,6 +367,10 @@ func calculateTurnOrder():
 
 func battleEnd():
 	get_parent().get_parent().get_parent().battleEnded(eNum)
+	if hasRan == false:
+		get_parent().get_parent().get_parent().playerVictory = 2
+	else:
+		get_parent().get_parent().get_parent().playerVictory = 3
 	battleSituations = 7
 	if hasRan == false:
 		var text = "The enemy has died! You have won!"
@@ -422,3 +427,8 @@ func _on_rich_text_label_pressed():
 		
 	elif battleSituations == 8:
 		determineNextActions()
+
+
+func _on_audio_stream_player_2d_finished():
+	$AudioStreamPlayer2D.stream = load("res://images/battlefight.wav")
+	$AudioStreamPlayer2D.play()

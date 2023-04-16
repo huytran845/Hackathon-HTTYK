@@ -1,4 +1,4 @@
-class_name tomato
+
 extends Node
 
 var skills = ["nothing"]
