@@ -49,6 +49,7 @@ var foodItem = ""
 var isPlayerTurn = false
 var battleSituations = 0
 var eChara
+var isBurned = false
 
 func battleSetup(enCharacter,enName,enemyNum,plHealth,plEnergy,plAtk,plDef,plSpeed,plLuck,enHealth,enEnergy,enAtk,enDef,enSpeed,enLuck,enSkills,enSkillChance):
 	eName = enName
@@ -69,16 +70,22 @@ func battleSetup(enCharacter,enName,enemyNum,plHealth,plEnergy,plAtk,plDef,plSpe
 	eChara = enCharacter
 	eSkillChance = enSkillChance
 	$playerUi/PlayerMenu/Health.max_value = pHealth
+	$playerUi/PlayerMenu/Health.value = pHealth
 	$playerUi/eHealth.max_value = eHealth
+	$playerUi/eHealth.value = eHealth
 	$playerUi/PlayerMenu/Energy.max_value = pEnergy
+	$playerUi/PlayerMenu/Energy.value = pEnergy
 	$playerUi/eEnergy.max_value = eEnergy
+	$playerUi/eEnergy.value = eEnergy
 	$playerUi/PlayerMenu/eName.text = eName
+	$playerUi/PlayerMenu/Health.value = pHealth
 	if eChara == "onion":
 		eName = "Dragonion"
 	elif eChara == "tomato":
 		eName = "Tomaturtle"
 	elif eChara == "pepper":
 		eName == "Ghost Pepper"
+	$playerUi/PlayerMenu/eName.text = eName
 	print("Food item = ", eChara, "eName = ", eName )
 	$playerUi/enemy.texture = load("res://images/" + str(eChara) + "Battle.png")
 	
@@ -111,8 +118,15 @@ func enemyTurn():
 	$playerUi/PlayerMenu/playerMenu.visible = false
 	textboxBackground.visible = true
 	#As actions happen, textBlock takes note and display all of them at the end to the Player instead of displaying it when it's happening.
-	var text = "The enemy is cooking something behind its back..."
-	showText(text)
+	randomize()
+	var dialogChance = randi_range(3,1)
+	if dialogChance == 1:
+		var text = "The enemy is cooking something behind its back..."
+		showText(text)
+	elif dialogChance == 2:
+		var text = "It's either eat or be eaten..."
+	else:
+		var text = "Let's dish up something special!"
 	textButton.disabled = false
 	textButton.grab_focus()
 	battleSituations = 1
@@ -128,19 +142,28 @@ func enemyActionTurn():
 	var skillScript = load("res://objects/" + str(skillName) + ".gd")
 	var skillActive = skillScript.new()
 	if useSkillChance >= eSkillChance and skillActive.energyCost() <= eEnergy:
-		
+		if skillName == "invisiblity":
+			if pAccuracyBuff >= 0.4:
+				pAccuracyBuff -= 0.2
+			else:
+				var text = "You can't can't see the Ghost Pepper any more (less?)!"
+				showText(text)
+		elif skillName == "intangible":
+			if eEvasionBuff <= 1.6:
+				eEvasionBuff += 0.2
+			else:
+				var text = "But the Ghost Pepper can't disappear anymore from life!"
+				showText(text)
+		elif skillName == "burn":
+			if isBurned == false:
+				burn()
+			else:
+				var text = "Ghost Pepper tried to burn you again, but you're already on fire!"
 		#If here, then skill activated
-		if skillActive.specialSkill():
+		elif skillActive.specialSkill():
 			#Special skill = anything that isn't direct damage
 			if skillActive.isDebuff() == true:
 				#Debuffs the player
-				if skillName == "invisiblity":
-					if pAccuracyBuff >= 0.4:
-						pAccuracyBuff -= 0.2
-					else:
-						
-						var text = "Your accuracy can't go any lower!"
-						showText(text)
 				if pBuffs > 0.4:
 					pBuffs -= skillActive.useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,eHealth,pBuffs,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs)
 					
@@ -159,9 +182,12 @@ func enemyActionTurn():
 			var dmg = skillActive.useSkill(pHealth,pEnergy,pAtk,pDef,pSpeed,pLuck,eHealth,pBuffs,eEnergy,eAtk,eDef,eSpeed,eLuck,eBuffs)
 			#roundtoTwo rounds to the nearest decimal point
 			dmg = roundToTwo(dmg,2)
+			if dmg - pDef <= 0:
+				dmg = 0
 			pHealth -= dmg - pDef
 			$playerUi/PlayerMenu/Health.value -= dmg - pDef
 			textboxBackground.visible = true
+			$playerUi/PlayerMenu/playerPortrait/portrait.texture = load("res://images/portrait2.png")
 			var text = ("The enemy uses " + skillName + "! You took " + str(dmg) + "!")
 			showText(text)
 			
@@ -176,14 +202,20 @@ func enemyActionTurn():
 				#5% to crit +- luck
 				var dmg = (((eAtk*eAtkBuff*eStatus)*1.5)*randf_range(0.8,1)-(pDef*pDefBuff))
 				dmg = roundToTwo(dmg,2)
+				if dmg <= 0:
+					dmg = 1
 				pHealth -= dmg
+				$playerUi/PlayerMenu/playerPortrait/portrait.texture = load("res://images/portrait2.png")
 				$playerUi/PlayerMenu/Health.value -= dmg 
 				textboxBackground.visible = true
 				var text = ("The enemy attcks you directly! CRITICAL HIT! You took " + str(dmg) + " damage!")
 				showText(text)
 			var dmg = ((eAtk*eAtkBuff*eStatus)*randf_range(0.8,1)-(pDef*pDefBuff))
+			if dmg <= 0:
+				dmg = 1
 			dmg = roundToTwo(dmg,2)
 			pHealth -= dmg
+			$playerUi/PlayerMenu/playerPortrait/portrait.texture = load("res://images/portrait2.png")
 			$playerUi/PlayerMenu/Health.value -= dmg 
 			textboxBackground.visible = true
 			var text = ("The enemy attacks you directly! You took " + str(dmg) + "!")
@@ -214,10 +246,12 @@ func enemyTurnEnds():
 			#Whenever playTextAnimation appears, it plays all the dialog stored in textBlock
 			playerTurn()
 
+func burn():
+	pass
 
 func gameOver():
 	var gameOverInstance = load("res://scenes/game_over.tscn")
-	var gameOverScene = gameOverInstance.instiniate()
+	var gameOverScene = gameOverInstance.instantiate()
 	add_child(gameOverScene)
 	gameOverScene.appear()
 
@@ -257,20 +291,42 @@ func playerTurnEnds():
 		battleEnd()
 		#enemy defeated
 	else:
-		if turns == battlers:
-			turns = 0
-			rounds += 1
-			isPlayerTurn = false
-			textboxBackground.visible = true
-			calculateTurnOrder()
-		else: 
-			toPlayer = false
-			isPlayerTurn = false
-			$playerUi/PlayerMenu/playerMenu.visible = false
-			textboxBackground.visible = true
-			battleSituations = 6
-			var text = "It is now the enemy's turn"
-			showText(text)
+		battleSituations = 8
+		if isBurned:
+			$playerUi/PlayerMenu/playerPortrait/portrait.texture = load("res://images/portrait2.png")
+			
+			var dmg = ($playerUi/PlayerMenu/Health.max_value*0.1)
+			pHealth -= dmg
+			var text = "Ouch! You took " + str(dmg) + " damage from the spicy flavors!"
+		else:
+			randomize()
+			var dialogChance = randi_range(3,1)
+			if dialogChance == 1:
+				var text = "Now's not the time to let up!"
+				showText(text)
+			elif dialogChance == 2:
+				var text = "It's getting hotter, but you can stand it."
+				showText(text)
+			else:
+				var text = "Take a deep breath... of garlic cloves and remember the good things in life!"
+				showText(text)
+
+func determineNextActions():
+	if turns == battlers:
+		turns = 0
+		rounds += 1
+		isPlayerTurn = false
+		textboxBackground.visible = true
+		calculateTurnOrder()
+	else: 
+		toPlayer = false
+		isPlayerTurn = false
+		$playerUi/PlayerMenu/playerMenu.visible = false
+		textboxBackground.visible = true
+		battleSituations = 6
+		var text = "It is now the enemy's turn"
+		showText(text)
+		enemyTurn()
 	#On fight pressed, player is suppsoed to select an enemy in case there are multiples... currently, I'm not sure if it works.
 
 
@@ -279,6 +335,7 @@ func showText(text):
 	textButton.visible = true
 	textBox.text = text
 	textAnimation.play("textAnimation")
+	$playerUi/PlayerMenu/playerPortrait/portrait.texture = load("res://images/portrait1.png")
 
 func roundToTwo(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
@@ -346,3 +403,5 @@ func _on_rich_text_label_pressed():
 		enemyTurn()
 	elif battleSituations == 7:
 		self.queue_free()
+	elif battleSituations == 8:
+		determineNextActions()

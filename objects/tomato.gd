@@ -17,10 +17,10 @@ var timerWaitTime = 10
 
 func load_stats():
 	randomize()
-	eHealth = randi_range(round((100*level)*0.75),round((50*level)*.75))
+	eHealth = randi_range(round((500*level)*0.75),round((250*level)*.75))
 	eEnergy = randi_range(round((100*level)*0.75),round((50*level)*.75))
 	eAtk = randi_range(round((10*level)*0.75),round((1*level)*.75))
-	eDef = randi_range(round((10*level)*0.75),round((1*level)*.75))
+	eDef = randi_range(round((25*level)*0.75),round((10*level)*.75))
 	eSpeed = randi_range(round((10*level)*0.75),round((1*level)*.75))
 	eLuck = randi_range(round((10*level)*0.75),round((1*level)*.75))
 	

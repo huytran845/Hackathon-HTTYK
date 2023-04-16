@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dd78mdj0my6lg"]
+[gd_scene load_steps=18 format=3 uid="uid://dd78mdj0my6lg"]
 
 [ext_resource type="Script" path="res://intro.gd" id="1_1stlt"]
 [ext_resource type="Texture2D" uid="uid://h8xq3m26cvgd" path="res://images/intro1.png" id="2_yxave"]
@@ -10,6 +10,22 @@
 [ext_resource type="Texture2D" uid="uid://brmk8w6rpqxnj" path="res://images/intro6.png" id="6_75aae"]
 [ext_resource type="Texture2D" uid="uid://dwas5cddwcv4l" path="res://images/intro7.png" id="7_8qlfp"]
 [ext_resource type="AudioStream" uid="uid://b5pt3fvqwtd05" path="res://images/tinyThiefSong.mp3" id="10_pkvsx"]
+[ext_resource type="Texture2D" uid="uid://j46hd8lain0k" path="res://images/doneIcon.png" id="11_77snm"]
+
+[sub_resource type="Animation" id="Animation_kt6vp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("drawings:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_1nyel")]
+}
 
 [sub_resource type="Animation" id="Animation_mswr3"]
 resource_name = "intro"
@@ -27,25 +43,48 @@ tracks/0/keys = {
 "values": [ExtResource("2_yxave"), ExtResource("3_yyb2n"), ExtResource("4_arldx"), ExtResource("4_sxhni"), ExtResource("5_x6l7v"), ExtResource("6_75aae"), ExtResource("7_8qlfp")]
 }
 
-[sub_resource type="Animation" id="Animation_kt6vp"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qy24y"]
+_data = {
+"RESET": SubResource("Animation_kt6vp"),
+"intro": SubResource("Animation_mswr3")
+}
+
+[sub_resource type="Animation" id="Animation_5xkug"]
+resource_name = "carrotCursor"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("carrotCursor:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1040, 592), Vector2(1040, 582), Vector2(1040, 592), Vector2(1040, 602), Vector2(1040, 592)]
+}
+
+[sub_resource type="Animation" id="Animation_ktrwr"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("drawings:texture")
+tracks/0/path = NodePath("carrotCursor:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("3_1nyel")]
+"update": 0,
+"values": [Vector2(1040, 592)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_qy24y"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wnq05"]
 _data = {
-"RESET": SubResource("Animation_kt6vp"),
-"intro": SubResource("Animation_mswr3")
+"RESET": SubResource("Animation_ktrwr"),
+"carrotCursor": SubResource("Animation_5xkug")
 }
 
 [node name="intro" type="Control"]
@@ -82,30 +121,24 @@ texture = ExtResource("3_1nyel")
 stream = ExtResource("10_pkvsx")
 autoplay = true
 
-[node name="leftBlackScreen" type="ColorRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.017
-offset_right = 236.416
-offset_bottom = 648.0
-color = Color(0, 0, 0, 0.992157)
-
-[node name="rightBlackScreen" type="ColorRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.017
-offset_left = 896.0
-offset_right = 1132.42
-offset_bottom = 648.0
-color = Color(0, 0, 0, 0.992157)
-
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
 offset_right = 144.0
 offset_bottom = 104.0
 flat = true
+
+[node name="carrotCursor" type="NinePatchRect" parent="."]
+layout_mode = 0
+offset_left = 1040.0
+offset_top = 592.0
+offset_right = 1080.0
+offset_bottom = 632.0
+texture = ExtResource("11_77snm")
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_wnq05")
+}
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

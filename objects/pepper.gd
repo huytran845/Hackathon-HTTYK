@@ -25,6 +25,6 @@ func load_stats():
 	eEnergy = randi_range(round((baseHighHealth*level)*statsCalc),round((baseLowHealth*level)*statsCalc))
 	eAtk = randi_range(round((baseHigh*level)*statsCalc),round((baseLow*level)*statsCalc))
 	eDef = randi_range(round((baseHigh*level)*statsCalc),round((baseLow*level)*statsCalc))
-	eSpeed = randi_range(round((baseHigh*level)*statsCalc),round((baseLow*level)*statsCalc))
-	eLuck = randi_range(round((baseHigh*level)*statsCalc),round((baseLow*level)*statsCalc))
+	eSpeed = randi_range(round((baseHigh*level*100)*statsCalc),round((baseLow*100*level)*statsCalc))
+	eLuck = randi_range(round((baseHigh*level*10)*statsCalc),round((baseLow*level*10)*statsCalc))
 	
