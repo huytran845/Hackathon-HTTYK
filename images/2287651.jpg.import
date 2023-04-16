@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr5shtc3r3rqt"
-path="res://.godot/imported/Culinara.png-f7158bf11bacf65b3d42d83430807c3a.ctex"
+uid="uid://bopybihngu261"
+path="res://.godot/imported/2287651.jpg-f692c267fe5c526b967cbe24f22df56c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Characters/Culinara.png"
-dest_files=["res://.godot/imported/Culinara.png-f7158bf11bacf65b3d42d83430807c3a.ctex"]
+source_file="res://images/2287651.jpg"
+dest_files=["res://.godot/imported/2287651.jpg-f692c267fe5c526b967cbe24f22df56c.ctex"]
 
 [params]
 

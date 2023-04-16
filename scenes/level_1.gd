@@ -6,12 +6,13 @@ signal battleEntered
 @onready var Enemy2 = $CanvasLayer/TileMap/Enemy2
 @onready var Enemy3 = $CanvasLayer/TileMap/Enemy3
 @onready var Player = $CanvasLayer/TileMap/Culinara
+
 var canMove = true
 #0 - not battling, 1 battling, 2 victory, 3 is ran away
-var playerVictory = 0 
+var playerVictory = 0
 
-func _ready():
-	pass
+#func _ready():
+	#pass
 
 func battleEnter(eNums):
 	#Stop all other enemies from moving. Not sure if it actually works tho
@@ -104,3 +105,14 @@ func battleEnded(enemyNum): #EnemyNum is a unqiue exported variable which should
 func _on_animation_player_animation_finished(anim_name):
 	var enemyNum
 	battleStart(enemyNum)
+
+signal toggle_inventory()
+
+#leaving it for a bit later
+func _on_button_pressed():
+	$inventory.visible = !$inventory.visible
+	
+#trying to test the toggle for inventory
+#func _ready() -> void:
+	#player.toggle_inventory.connect(toggle_inventory_interface)
+	#inventory_interface.set_player_inventory_data(culinara.inventory)
